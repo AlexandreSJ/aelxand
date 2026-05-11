@@ -1,0 +1,16 @@
+{
+  "name": "react-hono-template",
+  "scripts": {
+    "client": "cd  client; bun dev",
+    "api": "bun run --hot api-server.ts",
+    "dev": "bun run api & bun run client"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.0.2",
+    "hono": "^4.12.18"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^25.6.2"
+  }
+}
