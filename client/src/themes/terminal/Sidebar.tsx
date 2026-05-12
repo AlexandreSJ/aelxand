@@ -42,7 +42,7 @@ export function Sidebar({ active, onSelect, mobileOpen, onToggleMobile }: Props)
       <aside className={`terminal-sidebar ${mobileOpen ? 'terminal-sidebar--open' : ''}`}>
         <div className="terminal-sidebar__header">
           <div className="terminal-sidebar__logo">
-            <span className="terminal-sidebar__prompt">$</span> AlexandreSJ
+            <span className="terminal-sidebar__prompt">~</span> AlexandreSJ
           </div>
           <button
             className="terminal-sidebar__close"
@@ -63,7 +63,7 @@ export function Sidebar({ active, onSelect, mobileOpen, onToggleMobile }: Props)
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.05 }}
             >
-              <span className="terminal-sidebar__item-prompt">$</span>
+              <span className="terminal-sidebar__item-prompt">❯</span>
               {t(item.key)}
             </motion.button>
           ))}

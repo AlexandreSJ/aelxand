@@ -27,14 +27,17 @@ export function CommandContent({ section }: Props) {
         transition={{ duration: 0.2 }}
       >
         <div className="terminal-content__command">
-          <span className="terminal-content__prompt">$</span>
-          {' cat ./'}
+          <span className="terminal-content__prompt">❯</span>
+          {' cd ~/aelxand/'}
           {section}
-          {'.md'}
+          {''}
         </div>
 
         {section === 'about' && (
           <div className="terminal-content__body">
+            <div className="terminal-content__command" style={{ marginBottom: 16 }}>
+              <span className="terminal-content__prompt">❯</span> cat dev.md
+            </div>
             <div className="terminal-content__profile">
               <img
                 src={profile.imageUrl}
@@ -61,7 +64,7 @@ export function CommandContent({ section }: Props) {
         {section === 'projects' && (
           <div className="terminal-content__body">
             <div className="terminal-content__command" style={{ marginBottom: 16 }}>
-              <span className="terminal-content__prompt">$</span> ls ./projects
+              <span className="terminal-content__prompt">❯</span> ls
             </div>
             <div className="terminal-content__projects">
               {projects.map(project => (
@@ -73,12 +76,18 @@ export function CommandContent({ section }: Props) {
 
         {section === 'stack' && (
           <div className="terminal-content__body">
+            <div className="terminal-content__command" style={{ marginBottom: 16 }}>
+              <span className="terminal-content__prompt">❯</span> ls
+            </div>
             <StackBadges />
           </div>
         )}
 
         {section === 'hobbies' && (
           <div className="terminal-content__body">
+            <div className="terminal-content__command" style={{ marginBottom: 16 }}>
+              <span className="terminal-content__prompt">❯</span> ls
+            </div>
             <div className="terminal-content__hobbies">
               {profile.hobbies.map(hobby => (
                 <div key={hobby.key} className="terminal-content__hobby">
@@ -93,7 +102,7 @@ export function CommandContent({ section }: Props) {
         {section === 'contact' && (
           <div className="terminal-content__body">
             <div className="terminal-content__command" style={{ marginBottom: 16 }}>
-              <span className="terminal-content__prompt">$</span> cat ./contact.md
+              <span className="terminal-content__prompt">❯</span> ls
             </div>
             <ContactLinks variant="buttons" />
           </div>

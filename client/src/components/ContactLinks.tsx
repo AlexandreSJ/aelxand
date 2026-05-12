@@ -20,7 +20,13 @@ export function ContactLinks({ className = '', variant = 'buttons' }: Props) {
           className="contact-links__item"
           title={t(link.labelKey)}
         >
-          <i className={`${link.icon} contact-links__icon`} />
+          {link.icon.includes('-icon') ? (
+            <svg className="contact-links__icon" viewBox="0 0 24 24" width="20" height="20">
+              <use href={`/icons.svg#${link.icon}`} />
+            </svg>
+          ) : (
+            <i className={`${link.icon} contact-links__icon`} />
+          )}
           {variant !== 'icons' && (
             <span className="contact-links__label">{t(link.labelKey)}</span>
           )}
