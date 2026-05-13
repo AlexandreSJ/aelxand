@@ -68,6 +68,7 @@ export const profile = {
   contact: [
     { key: 'github', labelKey: 'contact.github', url: 'https://github.com/AlexandreSJ', icon: 'devicon-github-plain' },
     { key: 'linkedin', labelKey: 'contact.linkedin', url: 'https://linkedin.com/in/alexandre-da-silva-junior', icon: 'devicon-linkedin-plain' },
+    // { key: 'email', labelKey: 'contact.email', url: undefined, icon: 'devicon-waku-plain' }, // TODO: Add email
     { key: 'spotify', labelKey: 'contact.spotify', url: 'https://spotify.com/@Aelxand', icon: 'spotify-icon' },
     { key: 'reddit', labelKey: 'contact.reddit', url: 'https://reddit.com/u/Aelxande', icon: 'reddit-icon' },
     { key: 'discord', labelKey: 'contact.discord', url: '#', icon: 'discord-icon' },

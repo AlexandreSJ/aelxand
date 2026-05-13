@@ -66,6 +66,22 @@
   50% { box-shadow: 0 0 20px var(--accent); }
 }
 
+/* CRT distortion — periodic glitch */
+@keyframes crt-distort {
+  0%, 95%, 100% { transform: translate(0); }
+  95.5% { transform: translate(-0.5px, 0.3px); }
+  96% { transform: translate(0.5px, -0.3px); }
+  96.5% { transform: translate(-0.3px, -0.5px); }
+  97% { transform: translate(0.3px, 0.5px); }
+  97.5% { transform: translate(0); }
+}
+
+/* CRT flicker */
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.985; }
+}
+
 /* Stagger helper — use with animation-delay on children */
 .stagger > * {
   opacity: 0;

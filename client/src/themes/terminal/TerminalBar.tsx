@@ -6,7 +6,7 @@ interface Props {
   onToggleMobile?: () => void
 }
 
-export function TerminalBar({ title = 'alexandresj — portfolio', onToggleMobile }: Props) {
+export function TerminalBar({ title = 'alexandresj / portfolio', onToggleMobile }: Props) {
   return (
     <div className="terminal-bar">
       <div className="terminal-bar__dots">

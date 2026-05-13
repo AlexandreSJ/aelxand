@@ -28,4 +28,11 @@ export const projects: Project[] = [
     tech: ['React', 'Hono', 'Vite', 'Typescript', 'Bun'],
     githubUrl: 'https://github.com/AlexandreSJ/aelxand',
   },
+  {
+    id: 'todo',
+    name: 'coming soon...',
+    descriptionKey: '',
+    tech: [],
+    githubUrl: '',
+  },
 ]
