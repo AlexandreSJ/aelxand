@@ -389,6 +389,7 @@
 
 .terminal-content__cursor {
   animation: blink 0.7s infinite;
+  animation-delay: 3s;
   color: var(--accent);
 }
 
