@@ -82,25 +82,6 @@ export function CommandContent() {
         </div>
       </section>
 
-      <section className="terminal-section" id="section-hobbies">
-        <div className="terminal-content__command">
-          <span className="terminal-content__prompt">❯</span> cd ~/hobbies
-        </div>
-        <div className="terminal-content__body">
-          <div className="terminal-content__command" style={{ marginBottom: 16 }}>
-            <span className="terminal-content__prompt">❯</span> ls
-          </div>
-          <div className="terminal-content__hobbies">
-            {profile.hobbies.map(hobby => (
-              <div key={hobby.key} className="terminal-content__hobby">
-                <span className="hobby-icon">{hobby.icon}</span>
-                <span>{t(hobby.key)}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="terminal-section" id="section-contact">
         <div className="terminal-content__command">
           <span className="terminal-content__prompt">❯</span> cd ~/contact
@@ -128,6 +109,30 @@ export function CommandContent() {
                 )}
                 <span>{t(link.labelKey)}</span>
               </a>
+            ))}
+          </div>
+        </div>
+
+
+        <div className="terminal-content__command">
+          <span className="terminal-content__prompt">❯</span> cd ~/hobbies
+        </div>
+        <div className="terminal-content__body">
+          <div className="terminal-content__command" style={{ marginBottom: 16 }}>
+            <span className="terminal-content__prompt">❯</span> ls
+          </div>
+          <div className="terminal-content__hobbies">
+            {profile.hobbies.map(hobby => (
+              <div key={hobby.key} className="terminal-content__hobby">
+                {hobby.icon.includes('-icon') ? (
+                  <svg className="hobby-icon" viewBox="0 0 24 24" width="20" height="20">
+                    <use href={`/icons.svg#${hobby.icon}`} />
+                  </svg>
+                ) : (
+                  <span className="hobby-icon">{hobby.icon}</span>
+                )}
+                <span>{t(hobby.key)}</span>
+              </div>
             ))}
           </div>
         </div>

@@ -49,7 +49,12 @@ export function ProjectModal({ project, onClose }: Props) {
               rel="noopener noreferrer"
               className="project-card__link"
             >
-              GitHub →
+              <span className="color-mode-toggle__icon">
+                <svg viewBox="0 0 20 20" width="10" height="10">
+                  <use href="/icons.svg#link-icon" />
+                </svg>
+              </span>
+              GitHub
             </a>
           )}
         </div>

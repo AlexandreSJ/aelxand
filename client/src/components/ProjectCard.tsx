@@ -55,17 +55,25 @@ export function ProjectCard({ project, index, onClick, className = '' }: Props) 
           <span key={tech} className="project-card__tag">{tech}</span>
         ))}
       </div>
-      {project.githubUrl && (
-        <a
-          href={project.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="project-card__link"
-          onClick={e => e.stopPropagation()}
-        >
-          GitHub →
-        </a>
-      )}
-    </div>
+        {project.githubUrl && (
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-card__link"
+            onClick={e => e.stopPropagation()}
+          >
+            <span className="color-mode-toggle__icon">
+              <svg viewBox="0 0 20 20" width="10" height="10">
+                <use href="/icons.svg#link-icon" />
+              </svg>
+            </span>
+            GitHub
+          </a>
+          <div style={{ color: 'var(--text-secondary)' }}>demo</div>
+        </div>
+        )}
+      </div>
   )
 }

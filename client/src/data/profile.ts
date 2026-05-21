@@ -3,6 +3,11 @@ export interface StackCategory {
   items: { name: string; icon: string }[]
 }
 
+export interface HobbyItem {
+  key: string
+  icon: string
+}
+
 export interface ContactLink {
   key: string
   labelKey: string
@@ -58,19 +63,19 @@ export const profile = {
     },
   ] as StackCategory[],
   hobbies: [
-    { key: 'hobbies.rpg', icon: '🎲' },
-    { key: 'hobbies.music', icon: '🎵' },
-    { key: 'hobbies.fps', icon: '🔫' },
-    { key: 'hobbies.gamedev', icon: '🎮' },
-    { key: 'hobbies.pixelart', icon: '🎨' },
-    { key: 'hobbies.linguistics', icon: '🗣️' },
-  ],
+    { key: 'hobbies.rpg', icon: 'dice-icon' },
+    { key: 'hobbies.music', icon: 'music-icon' },
+    { key: 'hobbies.fps', icon: 'csgo-icon' },
+    { key: 'hobbies.gamedev', icon: 'game-controller-icon' },
+    { key: 'hobbies.pixelart', icon: 'palette-icon' },
+    { key: 'hobbies.linguistics', icon: 'japanese-icon' },
+  ] as HobbyItem[],
   contact: [
     { key: 'github', labelKey: 'contact.github', url: 'https://github.com/AlexandreSJ', icon: 'devicon-github-plain' },
     { key: 'linkedin', labelKey: 'contact.linkedin', url: 'https://linkedin.com/in/alexandre-da-silva-junior', icon: 'devicon-linkedin-plain' },
-    // { key: 'email', labelKey: 'contact.email', url: undefined, icon: 'devicon-waku-plain' }, // TODO: Add email
+    { key: 'email', labelKey: 'contact.email', url: 'mailto:alexandre.sj22@gmail.com', icon: 'email-icon' },
     { key: 'spotify', labelKey: 'contact.spotify', url: 'https://spotify.com/@Aelxand', icon: 'spotify-icon' },
     { key: 'reddit', labelKey: 'contact.reddit', url: 'https://reddit.com/u/Aelxande', icon: 'reddit-icon' },
-    { key: 'discord', labelKey: 'contact.discord', url: '#', icon: 'discord-icon' },
+    { key: 'buymeacoffee', labelKey: 'contact.buymeacoffee', url: 'https://www.buymeacoffee.com/aelxand', icon: 'bmc-icon' },
   ] as ContactLink[],
 } as const

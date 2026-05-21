@@ -1,6 +1,6 @@
 import { type Section } from './Sidebar'
 
-const sections: Section[] = ['about', 'projects', 'stack', 'hobbies', 'contact']
+const sections: Section[] = ['about', 'projects', 'stack', 'contact']
 
 const ChevronUp = () => (
   <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>

@@ -71,7 +71,6 @@
 }
 
 .terminal-sidebar__item-prompt {
-  color: var(--success);
   margin-right: 8px;
 }
 
@@ -138,8 +137,8 @@
 }
 
 .terminal-bar__dot--red { background: #e94560; }
-.terminal-bar__dot--yellow { background: #fbbf24; }
-.terminal-bar__dot--green { background: #4ade80; }
+.terminal-bar__dot--yellow { background: #ffaaaa; }
+.terminal-bar__dot--green { background: #dadada; }
 
 .terminal-bar__title {
   font-family: var(--font-mono);
@@ -273,14 +272,15 @@
   min-height: 100%;
   scroll-snap-align: start;
   padding: 24px 48px;
+  padding-bottom: 33%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: 350px;
 }
 
 .terminal-section--scrollable {
-  justify-content: flex-start;
   padding-top: 32px;
   padding-bottom: 48px;
 }
@@ -294,7 +294,7 @@
   font-family: var(--font-mono);
   font-size: 0.85rem;
   color: var(--success);
-  margin-bottom: 20px;
+  margin-top: 20px;
   flex-shrink: 0;
 }
 
@@ -303,9 +303,9 @@
 }
 
 .terminal-content__body {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .terminal-content__name {
@@ -411,7 +411,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  padding-bottom: 350px;
 }
 
 .terminal-content__hobbies {
@@ -430,7 +429,7 @@
   border-radius: 8px;
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--text-secondary);
+  color: var(--text);
   transition: border-color var(--transition-fast);
 }
 
@@ -440,6 +439,7 @@
 
 .hobby-icon {
   font-size: 1.2rem;
+  color: currentColor;
 }
 
 /* ─── Contact grid — matches hobbies ─── */
@@ -460,7 +460,7 @@
   border-radius: 8px;
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--text-secondary);
+  color: var(--text);
   text-decoration: none;
   transition: all var(--transition-fast);
 }
@@ -482,6 +482,7 @@
   padding: 16px;
   transition: all var(--transition-fast);
   cursor: pointer;
+  user-select: none
 }
 
 .project-card:hover {
@@ -716,11 +717,13 @@
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 20px;
-  color: var(--accent-secondary);
+  color: var(--accent-primary);
   transition: border-color var(--transition-fast);
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  cursor: pointer;
+  user-select: none;
 }
 
 .stack-badges__chip i {
@@ -728,7 +731,7 @@
 }
 
 .stack-badges__chip:hover {
-  border-color: var(--accent-secondary);
+  border-color: var(--accent);
 }
 
 /* Language switch — 3-step */
@@ -763,8 +766,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 8px;
-  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  font-size: 1.6rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
   transition: all var(--transition-fast);
 }
 
@@ -773,7 +780,7 @@
 }
 
 .color-mode-toggle__icon {
-  font-size: 0.9rem;
+  padding: 3px 6px;
 }
 
 /* ─── Scroll navigation pills ─── */
@@ -990,7 +997,6 @@
   }
 
   .terminal-section {
-    padding: 16px 24px;
     min-height: 100%;
   }
 
@@ -1036,7 +1042,6 @@
 
   .terminal-content__command {
     font-size: 0.8rem;
-    margin-bottom: 16px;
   }
 
   .project-card {

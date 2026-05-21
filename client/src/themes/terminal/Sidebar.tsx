@@ -7,7 +7,6 @@ const navItems = [
   { key: 'nav.about', section: 'about' },
   { key: 'nav.projects', section: 'projects' },
   { key: 'nav.stack', section: 'stack' },
-  { key: 'nav.hobbies', section: 'hobbies' },
   { key: 'nav.contact', section: 'contact' },
 ] as const
 
