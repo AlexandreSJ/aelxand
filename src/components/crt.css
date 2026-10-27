@@ -1,0 +1,18 @@
+.crt-bezel{margin:0;background:linear-gradient(160deg,#1f1b22,#121015);border:1px solid var(--line);border-radius:calc(var(--crt-curve) + 14px);padding:20px 20px 38px;position:relative;
+  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--ink) 10%,transparent),0 30px 60px -30px #000}
+.crt-bezel__brand{position:absolute;left:26px;bottom:12px;font-family:var(--f-label);font-size:.68rem;color:var(--ink-faint);letter-spacing:.2em}
+.crt-bezel__led{position:absolute;right:26px;bottom:15px;width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red)}
+.crt{position:relative;background:var(--crt-bg);border-radius:var(--crt-curve);overflow:hidden;min-height:340px;box-shadow:inset 0 0 70px 18px #000,inset 0 0 0 1px #000}
+.crt__screen{margin:0;padding:clamp(18px,4vw,36px);font:400 clamp(.72rem,1.5vw,.95rem)/1.65 var(--f-mono);color:var(--crt-fg);white-space:pre-wrap;
+  text-shadow:0 0 var(--crt-glow) color-mix(in srgb,var(--crt-fg) 80%,transparent),1px 0 0 rgba(0,170,255,.22),-1px 0 0 rgba(255,0,80,.35);animation:crt-flick 4s steps(1) infinite}
+.crt__dim{opacity:.62}
+.crt__hi{color:#ffd0d5}
+.crt__cur{display:inline-block;width:.6em;height:1.05em;background:currentColor;vertical-align:-2px;animation:crt-blink 1s steps(2) infinite}
+.crt::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,var(--crt-scan)) 0 1px,transparent 1px 3px)}
+.crt::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;opacity:var(--crt-mask);mix-blend-mode:multiply;
+  background:repeating-linear-gradient(90deg,rgba(255,0,0,.9) 0 1px,rgba(0,255,0,.7) 1px 2px,rgba(0,80,255,.9) 2px 3px)}
+.crt__roll{position:absolute;left:0;right:0;height:22%;z-index:4;pointer-events:none;background:linear-gradient(transparent,color-mix(in srgb,var(--crt-fg) 7%,transparent),transparent);animation:crt-roll 7s linear infinite}
+.crt__vig{position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55) 100%)}
+@keyframes crt-flick{0%{opacity:1}12%{opacity:.96}13%{opacity:1}57%{opacity:.985}58%{opacity:1}83%{opacity:.95}84%{opacity:1}}
+@keyframes crt-roll{from{transform:translateY(-110%)}to{transform:translateY(560%)}}
+@keyframes crt-blink{50%{opacity:0}}
