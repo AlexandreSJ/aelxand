@@ -13,12 +13,11 @@ const artFor = (t: Track): Art => (t.media ? { kind: 'video', src: t.media.video
 
 function Meta({ t }: { t: Track }) {
   const { t: tr } = useI18n()
-  const date = yearMonth(t.pushedAt)
   return (
     <dl className="track__meta">
       {t.language && <div><dt className="sr-only">language</dt><dd>{t.language.toLowerCase()}</dd></div>}
       {t.stars > 0 && <div><dt className="sr-only">{tr('projects.stars')}</dt><dd><Icon name="star" />{t.stars}</dd></div>}
-      <div><dt className="sr-only">{tr('projects.updated')}</dt><dd>{tr('projects.updated')} <time dateTime={t.pushedAt}>{date}</time></dd></div>
+      <div><dt className="sr-only">{tr('projects.updated')}</dt><dd>{tr('projects.updated')} <time dateTime={t.pushedAt}>{yearMonth(t.pushedAt)}</time></dd></div>
       {t.tags?.map(tag => <div key={tag}><dt className="sr-only">tag</dt><dd>{tag}</dd></div>)}
     </dl>
   )
@@ -35,11 +34,11 @@ function TrackDetail({ track, onActive }: { track: Track; onActive: (t: Track) =
   }, [track, onActive])
   return (
     <article ref={ref} id={`track-${track.name}`} className="track" aria-labelledby={`track-${track.name}-h`}>
-      <header className="track__head">
-        <span className="track__code">{track.code}</span>
+      <div className="track__titlerow">
+        <span className="track__code" aria-hidden="true">{track.code}</span>
+        <h3 id={`track-${track.name}-h`} ref={title} className="track__title fx" data-text={track.name}>{track.name}</h3>
         {track.status && <Pill dot={track.status === 'building'}>{t(`status.${track.status}`)}</Pill>}
-      </header>
-      <h3 id={`track-${track.name}-h`} ref={title} className="track__title fx" data-text={track.name}>{track.name}</h3>
+      </div>
       <p className="track__voice">{track.descKey ? t(track.descKey) : track.description}</p>
       {track.media && (
         <video className="track__media" src={track.media.video} poster={track.media.poster} aria-label={t('projects.video')}
@@ -59,7 +58,7 @@ export function Record() {
   const { t } = useI18n()
   const years = useYears()
   const [active, setActive] = useState<Track | null>(null)
-  const list = useRef<HTMLOListElement>(null)
+  const list = useRef<HTMLDivElement>(null)
 
   // Back at the tracklist, the sleeve returns to the cover.
   useEffect(() => {
@@ -77,23 +76,28 @@ export function Record() {
         <Sleeve art={art} playing={playing} years={years} motto={t('hero.motto')} mottoRest={t('hero.philosophy_rest')} />
       </div>
       <div className="lp__side">
-        <SectionHead id="side-a" title={t('sideA.title')} em={t('sideA.em')} />
-        <ol className="tracklist" ref={list}>
-          {record.sideA.map(tr => (
-            <li key={tr.name}>
-              <a className="tracklist__row" href={`#track-${tr.name}`} aria-label={t('sideA.play', { name: tr.name })}
-                onPointerEnter={() => setActive(tr)} onFocus={() => setActive(tr)}>
-                <span className="tracklist__code">{tr.code}</span>
-                <span className="tracklist__name">{tr.name}</span>
-                <span className="tracklist__info">
-                  {tr.language?.toLowerCase()}
-                  {tr.stars > 0 && <><Icon name="star" />{tr.stars}</>}
-                </span>
-                <Icon name="play" />
-              </a>
-            </li>
-          ))}
-        </ol>
+        <div ref={list}>
+          <SectionHead id="side-a" title={t('sideA.title')} em={t('sideA.em')} />
+          <ol className="tracklist">
+            {record.sideA.map(tr => (
+              <li key={tr.name}>
+                <a className="tracklist__row" href={`#track-${tr.name}`} aria-label={t('sideA.play', { name: tr.name })}
+                  aria-current={active?.name === tr.name ? 'true' : undefined}
+                  onPointerEnter={() => setActive(tr)} onFocus={() => setActive(tr)}>
+                  <span className="tracklist__code">{tr.code}</span>
+                  <span className="tracklist__name">{tr.name}</span>
+                  <span className="tracklist__info">
+                    {tr.language?.toLowerCase()}
+                    {tr.live && <span className="tracklist__live">{t('projects.live')}</span>}
+                    {tr.stars > 0 && <span className="tracklist__stars"><Icon name="star" />{tr.stars}</span>}
+                  </span>
+                  <time className="tracklist__time" dateTime={tr.pushedAt}>{yearMonth(tr.pushedAt)}</time>
+                </a>
+              </li>
+            ))}
+          </ol>
+          <a className="link tracklist__more" href="#side-b">{t('sideA.more', { n: record.sideB.length })}<Icon name="arrow" /></a>
+        </div>
         <div className="tracks">
           {record.sideA.map(tr => <TrackDetail key={tr.name} track={tr} onActive={setActive} />)}
         </div>

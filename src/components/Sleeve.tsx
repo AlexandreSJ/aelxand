@@ -3,6 +3,7 @@ import { RED, ditherBayer, toBrightness, toDarkness } from '../lib/dither'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { useTextFx } from '../hooks/useTextFx'
 import { useI18n } from '../i18n'
+import { Disc } from './Disc'
 
 export type Art = { kind: 'portrait' } | { kind: 'video'; src: string } | { kind: 'type'; text: string }
 export type NowPlaying = { code: string; name: string } | null
@@ -50,7 +51,7 @@ function frameField(src: CanvasImageSource, sw: number, sh: number, scratch: Can
 export function Sleeve({ art, playing, years, motto, mottoRest }: { art: Art; playing: NowPlaying; years: number; motto: string; mottoRest: string }) {
   const { t } = useI18n()
   const canvas = useRef<HTMLCanvasElement>(null)
-  const disc = useRef<HTMLDivElement>(null)
+  const mini = useRef<HTMLCanvasElement>(null)
   const name = useTextFx<HTMLHeadingElement>('glitch', ['mount', 'hover'])
   const reduced = useReducedMotion()
   const engine = useRef<{ setArt: (a: Art) => void } | null>(null)
@@ -91,6 +92,9 @@ export function Sleeve({ art, playing, years, motto, mottoRest }: { art: Art; pl
         out.data.fill(0)
         ditherBayer(shown, N, N, out.data, RED, jitter)
         g.putImageData(out, 0, 0)
+        // Mirror into the mobile now-playing bar, which has no room for the full sleeve.
+        const m = mini.current?.getContext('2d')
+        if (m) { m.clearRect(0, 0, N, N); m.drawImage(cv, 0, 0) }
         const animating = p < 1 || (current.kind === 'video' && !reduced) || (current.kind === 'portrait' && hovering && !reduced)
         if (animating) schedule()
       }
@@ -132,16 +136,9 @@ export function Sleeve({ art, playing, years, motto, mottoRest }: { art: Art; pl
     cv.addEventListener('pointerenter', enter)
     cv.addEventListener('pointerleave', leave)
 
-    // The disc turns with scroll: a quarter turn per viewport.
-    let sraf = 0
-    const spin = () => { sraf = 0; disc.current?.style.setProperty('--spin', `${(scrollY / innerHeight) * 90}deg`) }
-    const onScroll = () => { if (!sraf) sraf = requestAnimationFrame(spin) }
-    if (!reduced) addEventListener('scroll', onScroll, { passive: true })
-
     return () => {
       alive = false
-      cancelAnimationFrame(raf); cancelAnimationFrame(sraf); clearInterval(tick)
-      removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(raf); clearInterval(tick)
       cv.removeEventListener('pointerenter', enter)
       cv.removeEventListener('pointerleave', leave)
       for (const v of videos.values()) { v.pause(); v.removeAttribute('src'); v.load() }
@@ -155,7 +152,7 @@ export function Sleeve({ art, playing, years, motto, mottoRest }: { art: Art; pl
   const cover = art.kind === 'portrait'
   return (
     <div className="record">
-      <div className="disc" ref={disc} aria-hidden="true"><div className="disc__label">AELX-001</div></div>
+      <Disc><span>AELX-001</span><span>Side A</span></Disc>
       <div className="sleeve">
         <canvas ref={canvas} width={N} height={N} className="sleeve__art" role="img" aria-label={t('hero.portrait_alt')} />
         <div className="sleeve__top"><span>AELX-001</span><span>{t('sleeve.role')}</span></div>
@@ -172,6 +169,11 @@ export function Sleeve({ art, playing, years, motto, mottoRest }: { art: Art; pl
           ? <><span className="record__dot" aria-hidden="true" />{t('sleeve.playing')} · {playing.code} {playing.name}</>
           : <>{t('sleeve.sides')} · {t('sleeve.years', { n: years })}</>}
       </p>
+      <div className="record__mini" data-on={playing ? 'true' : 'false'} aria-hidden="true">
+        <canvas ref={mini} width={N} height={N} />
+        <span>{t('sleeve.playing')}</span>
+        {playing && <b><i>{playing.code}</i>{playing.name}</b>}
+      </div>
     </div>
   )
 }

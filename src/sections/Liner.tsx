@@ -25,7 +25,7 @@ export function Liner() {
   ]
   return (
     <section className="sheet wrap liner" aria-labelledby="liner">
-      <SectionHead id="liner" title={t('liner.title')} em={t('liner.em')} />
+      <SectionHead id="liner" title={t('liner.title')} em={t('liner.em')} variant="rail" />
       <div className="liner__grid">
         <Crt label="who.md" meta="80×24 · utf-8" lines={lines} />
         <div className="liner__credits">

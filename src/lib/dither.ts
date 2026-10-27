@@ -81,8 +81,9 @@ export function paintGlow(out: Uint8ClampedArray, w: number, h: number): void {
 export function paintHalftone(out: Uint8ClampedArray, w: number, h: number): void {
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
     const cx = (x % 6) - 2.5, cy = (y % 6) - 2.5
-    const v = ((x / w) * 0.5 + (1 - y / h) * 0.4) * 0.8
-    if (v > Math.hypot(cx, cy) / 3.6) put(out, y * w + x, INK, 24)
+    // Capped below the cell radius so dots never merge into blocks behind text.
+    const v = Math.min(0.42, ((x / w) * 0.5 + (1 - y / h) * 0.4) * 0.62)
+    if (v > Math.hypot(cx, cy) / 3.6) put(out, y * w + x, INK, 18)
   }
 }
 

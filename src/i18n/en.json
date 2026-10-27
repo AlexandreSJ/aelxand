@@ -48,7 +48,6 @@
   "sideB.title": "Side B",
   "sideB.em": "every repository",
   "sideB.lede": "Every public repository, straight from GitHub. New ones appear here on their own.",
-  "sideB.none": "No description yet.",
   "stack.marquee": "stack",
   "bonus.title": "Bonus",
   "bonus.em": "tracks",
@@ -67,5 +66,7 @@
   "contact.em": "talk",
   "contact.lede": "Messages are welcome, in any of these languages.",
   "footer.source": "source",
-  "footer.language": "language"
+  "footer.language": "language",
+  "sideA.more": "+{n} more on side B",
+  "back.printed": "Printed in Brazil · 2022–2026"
 }

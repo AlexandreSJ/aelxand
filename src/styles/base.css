@@ -1,6 +1,7 @@
 *,*::before,*::after{box-sizing:border-box}
 html{background:var(--paper);scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.6 var(--f-read);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+/* body stays transparent so the fixed dithered background (z-index:-1) shows through */
+body{margin:0;color:var(--ink);font:400 16px/1.6 var(--f-read);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 ::selection{background:var(--red);color:var(--on-red)}
 a{color:inherit}
 h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance}
@@ -23,3 +24,5 @@ main{overflow-x:clip}
 .link .icon{transition:transform var(--move) var(--ease)}
 .link:hover .icon{transform:translate(2px,-2px)}
 time,.index__date,.track__meta{font-variant-numeric:tabular-nums}
+/* CJK has no italic: the voice face keeps its colour and weight, never a synthetic slant */
+:lang(ja) :is(em.v,.sleeve__motto,.track__voice,.side-b__lede,.back__lede,.bonus__list span,.marquee__item--v){font-style:normal;font-synthesis:none}

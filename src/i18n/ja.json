@@ -48,7 +48,6 @@
   "sideB.title": "B 面",
   "sideB.em": "すべてのリポジトリ",
   "sideB.lede": "GitHub から直接取得した公開リポジトリ。新しいものは自動で追加されます。",
-  "sideB.none": "説明はまだありません。",
   "stack.marquee": "技術スタック",
   "bonus.title": "ボーナス",
   "bonus.em": "トラック",
@@ -67,5 +66,7 @@
   "contact.em": "どうぞ",
   "contact.lede": "メッセージはどの言語でも歓迎です。",
   "footer.source": "ソース",
-  "footer.language": "言語"
+  "footer.language": "言語",
+  "sideA.more": "B 面にさらに {n} 曲",
+  "back.printed": "ブラジル製 · 2022–2026"
 }
