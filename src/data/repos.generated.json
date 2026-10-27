@@ -90,15 +90,6 @@
     "fork": false
   },
   {
-    "name": "go-test",
-    "description": null,
-    "language": null,
-    "stars": 0,
-    "pushedAt": "2026-04-02T16:40:15Z",
-    "homepage": null,
-    "fork": false
-  },
-  {
     "name": "portfolio-api-node",
     "description": null,
     "language": "TypeScript",

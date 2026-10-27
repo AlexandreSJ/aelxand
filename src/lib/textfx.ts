@@ -97,7 +97,7 @@ export function glitch(el: HTMLElement): () => void {
   el.classList.remove('glitching')
   void el.offsetWidth
   el.classList.add('glitching')
-  const id = setTimeout(() => el.classList.remove('glitching'), 700)
+  const id = setTimeout(() => el.classList.remove('glitching'), 950)
   return () => { clearTimeout(id); el.classList.remove('glitching') }
 }
 

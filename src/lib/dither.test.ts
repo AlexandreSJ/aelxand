@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { B8, RED, bayer8, ditherAtkinson, ditherBayer, paintBand, paintGlow, paintHalftone, toBrightness, toDarkness } from './dither'
+import { B8, RED, bayer8, ditherAtkinson, ditherBayer, paintBand, paintGlow, paintHalftone, paintSpecks, toBrightness, toDarkness } from './dither'
 
 const field = (w: number, h: number, v: number) => new Float32Array(w * h).fill(v)
 const out = (w: number, h: number) => new Uint8ClampedArray(w * h * 4)
@@ -70,6 +70,18 @@ describe('background layers', () => {
     for (let i = 3; i < o.length; i += 4) if (o[i]) expect(o[i]).toBeLessThan(50)
     expect(coverage(o, 120 * 90)).toBeGreaterThan(0.03)
     expect(coverage(o, 120 * 90)).toBeLessThan(0.4)
+  })
+})
+
+describe('paintSpecks', () => {
+  it('scatters a sparse, deterministic near layer', () => {
+    const a = out(160, 120), b = out(160, 120)
+    paintSpecks(a, 160, 120); paintSpecks(b, 160, 120)
+    expect([...a]).toEqual([...b])
+    let on = 0
+    for (let i = 3; i < a.length; i += 4) if (a[i]) on++
+    expect(on / (160 * 120)).toBeGreaterThan(0.002)
+    expect(on / (160 * 120)).toBeLessThan(0.03)
   })
 })
 

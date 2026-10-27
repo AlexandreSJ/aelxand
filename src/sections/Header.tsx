@@ -11,11 +11,11 @@ export function Header() {
         <a className="topbar__mark" href="#side-a"><span>~/</span>aelxand</a>
         <nav className="topbar__nav" aria-label="primary">
           <a href="#side-a">{t('nav.sideA')}</a>
-          <a href="#liner">{t('nav.liner')}</a>
+          <a href="#backstage">{t('nav.backstage')}</a>
           <a href="#side-b">{t('nav.sideB')}</a>
           <a href="#contact">{t('nav.contact')}</a>
         </nav>
-        <span className="topbar__years">LP · {t('sleeve.years', { n: years })}</span>
+        <span className="topbar__years">{t('liner.working_v', { n: years })}</span>
         <LangSwitch />
       </div>
     </header>

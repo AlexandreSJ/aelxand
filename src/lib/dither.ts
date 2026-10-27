@@ -93,3 +93,20 @@ export function paintBand(out: Uint8ClampedArray, w: number, h: number): void {
     if (v > B8[y % 8][x % 8]) put(out, y * w + x, RED)
   }
 }
+
+/** Integer hash in [0,1): stable noise without Math.random, so layers repaint identically. */
+const hash = (x: number, y: number) => {
+  let n = Math.imul(x, 374761393) + Math.imul(y, 668265263)
+  n = Math.imul(n ^ (n >>> 13), 1274126177)
+  return ((n ^ (n >>> 16)) >>> 0) / 4294967296
+}
+
+/** Nearest parallax layer: sparse 2x2 specks, a few red, that drift fastest and give the ground depth. */
+export function paintSpecks(out: Uint8ClampedArray, w: number, h: number): void {
+  for (let y = 0; y < h; y += 2) for (let x = 0; x < w; x += 2) {
+    const r = hash(x, y)
+    if (r > 0.012) continue
+    const c = r < 0.003 ? RED : INK
+    for (const [dx, dy] of [[0, 0], [1, 0], [0, 1], [1, 1]]) if (x + dx < w && y + dy < h) put(out, (y + dy) * w + x + dx, c, 70)
+  }
+}

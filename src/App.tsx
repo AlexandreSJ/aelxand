@@ -4,7 +4,7 @@ import './styles/base.css'
 import './styles/fx.css'
 import './components/primitives.css'
 import './components/canvas.css'
-import './components/crt.css'
+import './components/terminal.css'
 import './sections/sections.css'
 import { I18nProvider, useI18n, type Locale } from './i18n'
 import { profile } from './data/profile'
@@ -13,9 +13,8 @@ import { Rule } from './components/Rule'
 import { Marquee } from './components/Marquee'
 import { Header } from './sections/Header'
 import { Record } from './sections/Record'
-import { Liner } from './sections/Liner'
+import { Backstage } from './sections/Backstage'
 import { SideB } from './sections/SideB'
-import { Bonus } from './sections/Bonus'
 import { Rotation } from './sections/Rotation'
 import { Contact } from './sections/Contact'
 import { Footer } from './sections/Footer'
@@ -33,16 +32,14 @@ export function App({ locale }: { locale: Locale }) {
       <main>
         <Record />
         <Rule />
-        <Liner />
+        <Backstage />
         <Credits />
         <SideB />
         <Rule />
         <div className="wrap duo">
-          <Bonus />
+          <Contact />
           <Rotation />
         </div>
-        <Rule />
-        <Contact />
       </main>
       <Footer />
     </I18nProvider>
