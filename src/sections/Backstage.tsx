@@ -34,8 +34,8 @@ export function Backstage() {
     [t('liner.based'), t('liner.based_v')],
   ]
   return (
-    <section className="sheet wrap backstage" aria-labelledby="backstage">
-      <SectionHead id="backstage" title={t('liner.title')} em={t('liner.em')} variant="rail" />
+    <section className="sheet wrap backstage" id="backstage" aria-labelledby="backstage-h">
+      <SectionHead id="backstage-h" title={t('liner.title')} em={t('liner.em')} variant="rail" />
       <div className="backstage__grid">
         <Terminal script={SCRIPT} path="/home/aelxand" />
         <div>

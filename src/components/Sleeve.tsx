@@ -9,7 +9,7 @@ import { Disc } from './Disc'
 const N = 200
 const REVEAL_MS = 700
 
-/** The portrait, Bayer-dithered in red; it develops from black on load and jitters on hover. */
+/** The portrait, Bayer-dithered in red; it develops from black on load, then shimmers continuously. */
 function Portrait() {
   const { t } = useI18n()
   const canvas = useRef<HTMLCanvasElement>(null)
@@ -44,15 +44,12 @@ function Portrait() {
     }
     img.src = '/portrait.jpg'
 
-    const enter = () => { if (!reduced) tick = window.setInterval(() => { jitter = (jitter + 1) % 8; draw(Infinity) }, 90) }
-    const leave = () => { clearInterval(tick); jitter = 0; draw(Infinity) }
-    cv.addEventListener('pointerenter', enter)
-    cv.addEventListener('pointerleave', leave)
-    return () => {
-      cancelAnimationFrame(raf); clearInterval(tick)
-      cv.removeEventListener('pointerenter', enter)
-      cv.removeEventListener('pointerleave', leave)
-    }
+    // The threshold matrix keeps shifting, so the portrait shimmers on its own while it is on screen.
+    let visible = true
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting })
+    io.observe(cv)
+    if (!reduced) tick = window.setInterval(() => { if (visible && field) { jitter = (jitter + 1) % 8; draw(Infinity) } }, 110)
+    return () => { cancelAnimationFrame(raf); clearInterval(tick); io.disconnect() }
   }, [reduced])
 
   return <canvas ref={canvas} width={N} height={N} className="sleeve__art" role="img" aria-label={t('hero.portrait_alt')} />

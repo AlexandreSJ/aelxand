@@ -5,7 +5,7 @@ import { useReducedMotion } from '../hooks/useReducedMotion'
 import { scramble } from '../lib/textfx'
 import { Sleeve } from '../components/Sleeve'
 import { SectionHead } from '../components/SectionHead'
-import { Pill } from '../components/Pill'
+import { Pill, LiveDot } from '../components/Pill'
 import { Icon } from '../components/Icon'
 import { yearMonth } from '../lib/month'
 
@@ -26,7 +26,7 @@ function Note({ track, on }: { track: Track; on: boolean }) {
       <div className="note__row">
         <span className="note__code">{track.code}</span>
         <h3 ref={title} className="note__title fx" data-text={track.name}>{track.name}</h3>
-        {track.status && <Pill dot={track.status === 'building'}>{t(`status.${track.status}`)}</Pill>}
+        {track.status && <Pill dot={track.status === 'building'} live={track.status === 'live'}>{t(`status.${track.status}`)}</Pill>}
       </div>
       <p className="note__voice">{track.descKey ? t(track.descKey) : track.description}</p>
       <p className="note__meta">
@@ -65,7 +65,14 @@ export function Record() {
     }
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(step) }
     addEventListener('scroll', onScroll, { passive: true })
-    return () => { removeEventListener('scroll', onScroll); cancelAnimationFrame(raf) }
+
+    // Phones: the sleeve sticks at the top and the row crossing the line just below it plays.
+    const io = new IntersectionObserver(es => {
+      if (mq.matches) return
+      for (const e of es) if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.index))
+    }, { rootMargin: '-68% 0px -24% 0px' })
+    section.current?.querySelectorAll('[data-index]').forEach(el => io.observe(el))
+    return () => { removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); io.disconnect() }
   }, [])
 
   /** Clicking a row on desktop scrolls to that track's step, so scroll and selection agree. */
@@ -83,23 +90,22 @@ export function Record() {
         <div className="lp__deck">
           <Sleeve tracks={tracks} active={active} motto={t('hero.motto')} mottoRest={t('hero.philosophy_rest')} />
           <div className="notes">
-            <p className="note note--cover" data-on={active < 0 || undefined}>{t('sideA.hint')}</p>
             {tracks.map((tr, i) => <Note key={tr.name} track={tr} on={i === active} />)}
           </div>
         </div>
         <div className="lp__side">
-          <SectionHead id="side-a" title={t('sideA.title')} em={t('sideA.em')} />
+          <div data-index={-1}><SectionHead id="side-a" title={t('sideA.title')} em={t('sideA.em')} /></div>
           <ol className="tracklist">
             {tracks.map((tr, i) => (
               <li key={tr.name}>
-                <button type="button" className="tracklist__row" aria-pressed={i === active}
+                <button type="button" className="tracklist__row" data-index={i} aria-pressed={i === active}
                   aria-label={t('sideA.play', { name: tr.name })}
                   onPointerEnter={e => e.pointerType === 'mouse' && setActive(i)} onFocus={() => setActive(i)} onClick={() => choose(i)}>
                   <span className="tracklist__code">{tr.code}</span>
                   <span className="tracklist__name">{tr.name}</span>
                   <span className="tracklist__info">
                     {tr.language?.toLowerCase()}
-                    {tr.live && <span className="tracklist__live">{t('projects.live')}</span>}
+                    {tr.live && <span className="tracklist__live"><LiveDot />{t('projects.live')}</span>}
                     {tr.stars > 0 && <span className="tracklist__stars"><Icon name="star" />{tr.stars}</span>}
                   </span>
                   <time className="tracklist__time" dateTime={tr.pushedAt}>{yearMonth(tr.pushedAt)}</time>

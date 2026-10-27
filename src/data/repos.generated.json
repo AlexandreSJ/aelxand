@@ -81,15 +81,6 @@
     "fork": false
   },
   {
-    "name": "lumberjack",
-    "description": null,
-    "language": null,
-    "stars": 0,
-    "pushedAt": "2026-04-21T19:17:52Z",
-    "homepage": null,
-    "fork": false
-  },
-  {
     "name": "portfolio-api-node",
     "description": null,
     "language": "TypeScript",
@@ -105,42 +96,6 @@
     "stars": 0,
     "pushedAt": "2025-09-10T02:35:57Z",
     "homepage": "https://portfolio-api-ten-psi.vercel.app",
-    "fork": false
-  },
-  {
-    "name": "x-connectivity-and-crypto",
-    "description": null,
-    "language": "TypeScript",
-    "stars": 0,
-    "pushedAt": "2023-09-27T12:45:21Z",
-    "homepage": "https://x-connectivity-and-crypto.vercel.app",
-    "fork": false
-  },
-  {
-    "name": "fsp-recicle",
-    "description": null,
-    "language": "TypeScript",
-    "stars": 0,
-    "pushedAt": "2023-09-25T01:38:38Z",
-    "homepage": "https://fsp-recicle.vercel.app",
-    "fork": false
-  },
-  {
-    "name": "demo-api",
-    "description": null,
-    "language": "Java",
-    "stars": 0,
-    "pushedAt": "2023-08-22T19:46:47Z",
-    "homepage": null,
-    "fork": false
-  },
-  {
-    "name": "modelo-churn",
-    "description": null,
-    "language": "R",
-    "stars": 0,
-    "pushedAt": "2023-06-17T02:13:33Z",
-    "homepage": null,
     "fork": false
   },
   {

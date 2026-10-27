@@ -11,10 +11,11 @@ const BLEED = 32
 
 type Paint = (o: Uint8ClampedArray, w: number, h: number) => void
 /** far → near: the nearer the layer, the faster it moves with scroll and pointer. */
-const LAYERS: { paint: Paint; depth: number }[] = [
-  { paint: paintGlow, depth: 0.35 },
-  { paint: paintHalftone, depth: 0.7 },
-  { paint: paintSpecks, depth: 1.3 },
+/** blur is a depth of field: the farther the layer, the softer, so text over it stays readable. */
+const LAYERS: { paint: Paint; depth: number; blur: number }[] = [
+  { paint: paintGlow, depth: 0.35, blur: 2.4 },
+  { paint: paintHalftone, depth: 0.7, blur: 1.4 },
+  { paint: paintSpecks, depth: 1.3, blur: 0.6 },
 ]
 
 /**
@@ -85,7 +86,7 @@ export function Background() {
 
   return (
     <div className="bg" aria-hidden="true">
-      {LAYERS.map((_, i) => <canvas key={i} ref={el => { refs.current[i] = el }} className="bg__layer" />)}
+      {LAYERS.map((l, i) => <canvas key={i} ref={el => { refs.current[i] = el }} className="bg__layer" style={{ filter: `blur(${l.blur}px)` }} />)}
     </div>
   )
 }
