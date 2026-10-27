@@ -78,7 +78,9 @@
 .bonus__list span{font-family:var(--f-voice);font-style:italic;font-weight:300;color:var(--ink-dim)}
 .rotation__player{display:block;border:.5px solid var(--line);padding:10px;background:var(--raised);transition:border-color var(--snap)}
 .rotation__player:hover{border-color:var(--red)}
-.rotation__player img{display:block;width:100%;height:auto}
+.rotation__player img{display:none;width:100%;height:auto}
+.rotation__player[data-loaded] img{display:block}
+.rotation__player[data-loaded] .rotation__fallback{display:none}
 .rotation__fallback{display:flex;align-items:center;gap:8px;min-height:120px;justify-content:center;font:400 .85rem/1.4 var(--f-mono);color:var(--ink-dim)}
 
 /* back cover */
