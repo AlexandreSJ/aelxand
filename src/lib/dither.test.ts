@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { B8, RED, bayer8, ditherAtkinson, ditherBayer, paintBackground, paintBand, toDarkness } from './dither'
+import { B8, RED, bayer8, ditherAtkinson, ditherBayer, paintBand, paintGlow, paintHalftone, toBrightness, toDarkness } from './dither'
 
 const field = (w: number, h: number, v: number) => new Float32Array(w * h).fill(v)
 const out = (w: number, h: number) => new Uint8ClampedArray(w * h * 4)
@@ -48,15 +48,32 @@ describe('toDarkness', () => {
   })
 })
 
-describe('paintBackground / paintBand', () => {
-  it('paints a sparse, translucent background', () => {
-    const o = out(120, 90)
-    paintBackground(o, 120, 90)
-    let on = 0
-    for (let i = 3; i < o.length; i += 4) if (o[i]) { on++; expect(o[i]).toBeLessThan(80) }
-    expect(on / (120 * 90)).toBeGreaterThan(0.05)
-    expect(on / (120 * 90)).toBeLessThan(0.45)
+describe('toBrightness', () => {
+  it('maps white to 1 and black to 0, for light-on-dark sources', () => {
+    const d = toBrightness(new Uint8ClampedArray([255, 255, 255, 255, 0, 0, 0, 255]), 2)
+    expect([d[0], d[1]]).toEqual([1, 0])
   })
+})
+
+describe('background layers', () => {
+  const coverage = (o: Uint8ClampedArray, n: number) => { let on = 0; for (let i = 3; i < o.length; i += 4) if (o[i]) on++; return on / n }
+  it('paints a sparse, translucent red glow', () => {
+    const o = out(120, 90)
+    paintGlow(o, 120, 90)
+    for (let i = 3; i < o.length; i += 4) if (o[i]) { expect(o[i]).toBeLessThan(80); expect(o[i - 3]).toBe(238) }
+    expect(coverage(o, 120 * 90)).toBeGreaterThan(0.03)
+    expect(coverage(o, 120 * 90)).toBeLessThan(0.3)
+  })
+  it('paints a faint ink halftone', () => {
+    const o = out(120, 90)
+    paintHalftone(o, 120, 90)
+    for (let i = 3; i < o.length; i += 4) if (o[i]) expect(o[i]).toBeLessThan(50)
+    expect(coverage(o, 120 * 90)).toBeGreaterThan(0.03)
+    expect(coverage(o, 120 * 90)).toBeLessThan(0.4)
+  })
+})
+
+describe('paintBand', () => {
   it('paints a band that is denser at the top than the bottom', () => {
     const w = 64, h = 22, o = out(w, h)
     paintBand(o, w, h)

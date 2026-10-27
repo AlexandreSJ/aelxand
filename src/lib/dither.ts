@@ -36,6 +36,13 @@ export function toDarkness(rgba: Uint8ClampedArray, n: number): Float32Array {
   return d
 }
 
+/** Luma as ink amount for light-on-dark sources (terminal video, type covers). */
+export function toBrightness(rgba: Uint8ClampedArray, n: number): Float32Array {
+  const d = toDarkness(rgba, n)
+  for (let i = 0; i < n; i++) d[i] = 1 - d[i]
+  return d
+}
+
 export function ditherBayer(dark: Float32Array, w: number, h: number, out: Uint8ClampedArray, color: RGB, jitter = 0): number {
   let on = 0
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
@@ -61,16 +68,21 @@ export function ditherAtkinson(dark: Float32Array, w: number, h: number, out: Ui
   return on
 }
 
-/** Red Bayer glow in two corners, then an ink halftone where the glow left gaps. */
-export function paintBackground(out: Uint8ClampedArray, w: number, h: number): void {
+/** Far parallax layer: red Bayer glow pooling in the top-right and bottom-left corners. */
+export function paintGlow(out: Uint8ClampedArray, w: number, h: number): void {
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-    const i = y * w + x
     const r1 = Math.hypot(((x - w * 0.92) / w) * 1.18, (y + h * 0.05) / h)
     const r2 = Math.hypot((x - w * 0.05) / w, ((y - h * 1.05) / h) * 1.26)
-    if (Math.max(0.62 - r1 * 1.05, 0.32 - r2 * 0.9, 0) > B8[y % 8][x % 8]) { put(out, i, RED, 58); continue }
+    if (Math.max(0.55 - r1 * 1.05, 0.3 - r2 * 0.9, 0) > B8[y % 8][x % 8]) put(out, y * w + x, RED, 46)
+  }
+}
+
+/** Near parallax layer: ink halftone dots that grow toward the top-right. */
+export function paintHalftone(out: Uint8ClampedArray, w: number, h: number): void {
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
     const cx = (x % 6) - 2.5, cy = (y % 6) - 2.5
-    const v = ((x / w) * 0.55 + (1 - y / h) * 0.45) * 0.85
-    if (v > Math.hypot(cx, cy) / 3.6) put(out, i, INK, 40)
+    const v = ((x / w) * 0.5 + (1 - y / h) * 0.4) * 0.8
+    if (v > Math.hypot(cx, cy) / 3.6) put(out, y * w + x, INK, 24)
   }
 }
 

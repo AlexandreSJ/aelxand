@@ -1,29 +1,31 @@
-import { useState } from 'react'
 import { useI18n } from '../i18n'
 import { profile } from '../data/profile'
+import { Icon } from '../components/Icon'
 import { SectionHead } from '../components/SectionHead'
-import { Button } from '../components/Button'
 
+/** The back cover: where to find him. */
 export function Contact() {
   const { t } = useI18n()
-  const [copied, setCopied] = useState(false)
-  const copy = () => navigator.clipboard.writeText(profile.email).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1400) })
+  const links: [string, string, string][] = [
+    ['linkedin', profile.linkedin, 'in/alexandre-da-silva-junior'],
+    ['github', profile.github, 'AlexandreSJ'],
+    ['coffee', profile.coffee, 'buymeacoffee.com/aelxand'],
+  ]
   return (
-    <section className="sheet wrap" aria-labelledby="contact">
-      <SectionHead id="contact" no="07" title={t('contact.title')} em={t('contact.em')} />
-      <p className="contact__lede">{t('contact.lede')}</p>
-      <dl className="specs">
-        {profile.email && (
-          <div className="specs__row">
-            <dt className="label">{t('contact.email')}</dt>
-            <dd className="contact__email"><a className="mono" href={`mailto:${profile.email}`}>{profile.email}</a>
-              <Button size="sm" onClick={copy}>{copied ? t('contact.copied') : t('contact.copy')}</Button></dd>
-          </div>
-        )}
-        <div className="specs__row"><dt className="label">github</dt><dd><a className="mono" href={profile.github}>AlexandreSJ ↗</a></dd></div>
-        <div className="specs__row"><dt className="label">linkedin</dt><dd><a className="mono" href={profile.linkedin}>alexandre-da-silva-junior ↗</a></dd></div>
-        <div className="specs__row"><dt className="label">coffee</dt><dd><a className="mono" href={profile.coffee}>buymeacoffee.com/aelxand ↗</a></dd></div>
-      </dl>
+    <section className="sheet wrap back" id="contact" aria-labelledby="contact-h">
+      <SectionHead id="contact-h" title={t('contact.title')} em={t('contact.em')} />
+      <p className="back__lede">{t('contact.lede')}</p>
+      <ul className="back__links">
+        {links.map(([k, href, label]) => (
+          <li key={k}>
+            <a href={href} target="_blank" rel="noreferrer">
+              <span className="back__k">{k}</span>
+              <span className="back__v">{label}</span>
+              <Icon name="arrow" />
+            </a>
+          </li>
+        ))}
+      </ul>
     </section>
   )
 }

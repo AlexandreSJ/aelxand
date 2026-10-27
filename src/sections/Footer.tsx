@@ -15,8 +15,8 @@ export function Footer() {
   const { t } = useI18n()
   return (
     <footer className="wrap footer">
-      <span className="mono">© 2026 AlexandreSJ</span>
-      <a className="mono" href="https://github.com/AlexandreSJ/aelxand">{t('footer.source')} ↗</a>
+      <span>AELX-001 · © 2026 AlexandreSJ</span>
+      <a href="https://github.com/AlexandreSJ/aelxand" target="_blank" rel="noreferrer">{t('footer.source')}</a>
       <LangSwitch />
     </footer>
   )

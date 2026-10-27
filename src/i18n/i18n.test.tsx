@@ -31,3 +31,12 @@ describe('pickLocale', () => {
     expect(pickLocale([])).toBe('en')
   })
 })
+
+describe('t()', () => {
+  it('interpolates {vars}', async () => {
+    const { renderToString } = await import('react-dom/server')
+    const { I18nProvider, useI18n } = await import('./index')
+    const Probe = () => <>{useI18n().t('sleeve.years', { n: 4 })}</>
+    expect(renderToString(<I18nProvider locale="pt"><Probe /></I18nProvider>)).toBe('4+ anos')
+  })
+})

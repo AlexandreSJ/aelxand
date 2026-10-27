@@ -1,16 +1,18 @@
 import { describe, expect, it } from 'vitest'
 import { renderToString } from 'react-dom/server'
+import { I18nProvider } from '../i18n'
 import { Background } from './Background'
-import { Portrait } from './Portrait'
+import { Sleeve } from './Sleeve'
 
 describe('canvas components (server markup)', () => {
   it('Background is decorative', () => {
     expect(renderToString(<Background />)).toContain('aria-hidden="true"')
   })
-  it('Portrait exposes an accessible name and a 200x200 canvas', () => {
-    const html = renderToString(<Portrait src="/portrait.jpg" alt="me" />)
+  it('Sleeve exposes the portrait as an image and shows the years when nothing is playing', () => {
+    const html = renderToString(
+      <I18nProvider locale="en"><Sleeve art={{ kind: 'portrait' }} playing={null} years={4} motto="m" mottoRest="." /></I18nProvider>,
+    )
     expect(html).toContain('role="img"')
-    expect(html).toContain('aria-label="me"')
-    expect(html).toContain('width="200"')
+    expect(html).toContain('4+ years')
   })
 })

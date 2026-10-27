@@ -1,4 +1,3 @@
-import { mkdir } from 'node:fs/promises'
 // @ts-expect-error built by `vite build --ssr`
 import { render, LOCALES, HTML_LANG } from '../dist-ssr/entry-server.js'
 
@@ -12,9 +11,7 @@ function page(locale: string) {
     .replace('<!--app-html-->', html)
 }
 
-for (const l of LOCALES as string[]) {
-  await mkdir(`dist/${l}`, { recursive: true })
-  await Bun.write(`dist/${l}/index.html`, page(l))
-}
+// dist/<locale>.html: Vercel's cleanUrls and `vite preview` both serve it at /<locale>.
+for (const l of LOCALES as string[]) await Bun.write(`dist/${l}.html`, page(l))
 await Bun.write('dist/index.html', page('en'))
 console.log(`prerender: ${(LOCALES as string[]).join(', ')} + /`)

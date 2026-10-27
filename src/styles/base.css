@@ -14,3 +14,12 @@ em.v{font-family:var(--f-voice);font-style:italic;font-weight:300;letter-spacing
 .mono{font-family:var(--f-mono)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+html{scrollbar-color:var(--red-dim) var(--paper);scrollbar-width:thin}
+input,textarea{caret-color:var(--red)}
+main{overflow-x:clip}
+.icon{width:1em;height:1em;flex:none;vertical-align:-.125em}
+.link{display:inline-flex;align-items:center;gap:6px;font:400 .8rem/1.4 var(--f-mono);color:var(--ink);text-decoration:underline;text-decoration-thickness:.5px;text-underline-offset:5px;text-decoration-color:var(--line-strong);transition:color var(--snap) var(--ease),text-decoration-color var(--snap) var(--ease)}
+.link:hover{color:var(--red);text-decoration-color:var(--red)}
+.link .icon{transition:transform var(--move) var(--ease)}
+.link:hover .icon{transform:translate(2px,-2px)}
+time,.index__date,.track__meta{font-variant-numeric:tabular-nums}

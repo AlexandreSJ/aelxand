@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 
+const QUERY = '(prefers-reduced-motion: reduce)'
+
+function subscribe(onChange: () => void) {
+  const mq = matchMedia(QUERY)
+  mq.addEventListener('change', onChange)
+  return () => mq.removeEventListener('change', onChange)
+}
+
+/** Live `prefers-reduced-motion`; false on the server, where nothing animates anyway. */
 export function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false)
-  useEffect(() => {
-    const mq = matchMedia('(prefers-reduced-motion: reduce)')
-    setReduced(mq.matches)
-    const on = (e: MediaQueryListEvent) => setReduced(e.matches)
-    mq.addEventListener('change', on)
-    return () => mq.removeEventListener('change', on)
-  }, [])
-  return reduced
+  return useSyncExternalStore(subscribe, () => matchMedia(QUERY).matches, () => false)
 }
