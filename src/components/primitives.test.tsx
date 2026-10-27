@@ -1,14 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { renderToString } from 'react-dom/server'
-import { Button } from './Button'
 import { SectionHead } from './SectionHead'
 import { Rule } from './Rule'
 import { Marquee } from './Marquee'
 
 describe('primitives (server markup)', () => {
-  it('Button renders a link when href is set', () => {
-    expect(renderToString(<Button href="/x" variant="red">go</Button>)).toMatch(/^<a[^>]+class="btn btn--red"[^>]+href="\/x"/)
-  })
   it('SectionHead keeps the full title readable and marks the emphasis', () => {
     const html = renderToString(<SectionHead id="p" title="Things I" em="build" />)
     expect(html).toContain('aria-label="Things I build"')

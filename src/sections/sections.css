@@ -1,7 +1,7 @@
 .topbar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);border-bottom:.5px solid var(--line)}
 .topbar__in{max-width:1320px;display:flex;align-items:center;gap:24px;min-height:56px}
 .topbar__mark{font:500 .9rem/1 var(--f-mono);text-decoration:none}
-.topbar__mark span{color:var(--red)}
+.topbar__mark span{color:var(--red-ink)}
 .topbar__nav{display:flex;gap:18px;margin-left:auto;font:400 .78rem/1 var(--f-mono)}
 .topbar__nav a{text-decoration:none;color:var(--ink-muted);transition:color var(--snap)}
 .topbar__nav a:hover{color:var(--ink)}
@@ -64,7 +64,7 @@
 .index__row[data-active]{background:var(--tint)}
 .index__code{font:400 .8rem/1 var(--f-label);color:var(--red-ink)}
 .index__name{font-family:var(--f-structure);font-weight:800;font-size:1.15rem;letter-spacing:-.01em;text-decoration:none;overflow-wrap:anywhere;transition:color var(--snap)}
-.index__name:hover,.index__row[data-active] .index__name{color:var(--red)}
+.index__name:hover,.index__row[data-active] .index__name{color:var(--red-ink)}
 .index__desc{font-size:.9rem;color:var(--ink-dim)}
 .index__lang,.index__date{font:400 .72rem/1 var(--f-mono);color:var(--ink-faint)}
 .index__live a{color:var(--ink-muted);transition:color var(--snap)}
@@ -85,7 +85,7 @@
 
 /* back cover */
 .back{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:center}
-.back__panel{aspect-ratio:1;display:grid;grid-template-rows:auto 1fr auto;gap:20px;padding:clamp(18px,2.4vw,30px);border:.5px solid var(--line);background:#120f15;box-shadow:0 30px 60px -28px #000}
+.back__panel{aspect-ratio:1;display:grid;grid-template-rows:auto 1fr auto;gap:20px;padding:clamp(18px,2.4vw,30px);border:.5px solid var(--line);background:var(--sleeve-board);box-shadow:0 30px 60px -28px #000}
 .back__cat{display:flex;justify-content:space-between;font:400 .75rem/1 var(--f-label);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
 .back__sides{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-content:center}
 .back__side{font:800 1.1rem/1 var(--f-structure);margin-bottom:10px}

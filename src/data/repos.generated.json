@@ -99,15 +99,6 @@
     "fork": false
   },
   {
-    "name": "whoami",
-    "description": null,
-    "language": null,
-    "stars": 0,
-    "pushedAt": "2026-02-02T02:12:14Z",
-    "homepage": null,
-    "fork": false
-  },
-  {
     "name": "portfolio-api-node",
     "description": null,
     "language": "TypeScript",
