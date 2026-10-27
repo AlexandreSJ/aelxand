@@ -1,0 +1,6 @@
+import '@fontsource-variable/bricolage-grotesque'
+import '@fontsource-variable/fraunces/wght-italic.css'
+import '@fontsource-variable/geist'
+import '@fontsource-variable/fira-code'
+import '@fontsource/dotgothic16'
+import '@fontsource/noto-sans-jp/400.css'

@@ -1,16 +1,44 @@
 {
-  "name": "react-hono-template",
+  "name": "aelxand",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "client": "cd  client; bun dev",
-    "api": "bun run --hot api-server.ts",
-    "dev": "bun run api & bun run client"
+    "dev": "vite",
+    "fetch-repos": "bun scripts/fetch-repos.ts",
+    "build": "bun run fetch-repos && tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && bun scripts/prerender.ts",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "@hono/node-server": "^2.0.2",
-    "hono": "^4.12.18"
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/fira-code": "^5.3.0",
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource/dotgothic16": "^5.3.1",
+    "@fontsource/noto-sans-jp": "^5.3.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "@types/node": "^25.6.2"
+    "@babel/core": "^7.29.0",
+    "@eslint/js": "^10.0.1",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "@types/babel__core": "^7.20.5",
+    "@types/node": "^24.12.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^10.2.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.5.0",
+    "happy-dom": "^21.0.4",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.58.2",
+    "vite": "^8.0.10",
+    "vitest": "^5.0.5"
   }
 }

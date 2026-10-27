@@ -1,0 +1,19 @@
+:root{
+  --paper:#0b0a0d;--raised:#15121a;--well:#1c1822;
+  --ink:#ede6e9;--ink-dim:#c2b9be;--ink-muted:#9a9197;--ink-faint:#7a7278;
+  --red:#ee0022;--red-dim:#9e0a20;--on-red:#0b0a0d;
+  --line:color-mix(in srgb,var(--ink) 20%,transparent);
+  --line-soft:color-mix(in srgb,var(--ink) 10%,transparent);
+  --line-strong:color-mix(in srgb,var(--ink) 38%,transparent);
+  --tint:color-mix(in srgb,var(--ink) 5%,transparent);
+  --f-structure:'Bricolage Grotesque Variable',system-ui,sans-serif;
+  --f-voice:'Fraunces Variable',Georgia,serif;
+  --f-read:'Geist Variable',system-ui,sans-serif;
+  --f-mono:'Fira Code Variable',ui-monospace,monospace;
+  --f-label:'DotGothic16','Fira Code Variable',ui-monospace,monospace;
+  --crt-bg:#0e0507;--crt-fg:#ff3347;--crt-scan:.32;--crt-glow:0px;--crt-mask:.16;--crt-curve:0px;
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;
+  --radius:2px;--ease:cubic-bezier(.215,.61,.355,1);--snap:90ms;--move:.18s;
+  color-scheme:dark;
+}
+:root:lang(ja){--f-read:'Geist Variable','Noto Sans JP',system-ui,sans-serif}
