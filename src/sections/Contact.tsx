@@ -1,7 +1,14 @@
+import { Fragment } from 'react'
 import { useI18n } from '../i18n'
 import { profile } from '../data/profile'
 import { Icon } from '../components/Icon'
 import { SectionHead } from '../components/SectionHead'
+
+/** Allow a line break only right after each "/", so URLs wrap as whole segments. */
+function breakAfterSlash(label: string) {
+  const parts = label.split('/')
+  return parts.map((part, i) => (i < parts.length - 1 ? <Fragment key={i}>{part}/<wbr /></Fragment> : part))
+}
 
 export function Contact() {
   const { t } = useI18n()
@@ -18,7 +25,7 @@ export function Contact() {
           <li key={k}>
             <a href={href} target="_blank" rel="noreferrer">
               <span className="contact__k">{k}</span>
-              <span className="contact__v">{label}</span>
+              <span className="contact__v">{breakAfterSlash(label)}</span>
               <Icon name="arrow" />
             </a>
           </li>

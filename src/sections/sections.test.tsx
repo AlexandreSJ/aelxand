@@ -54,3 +54,9 @@ describe('Contact', () => {
     expect(html).not.toContain('any of these languages')
   })
 })
+
+describe('Contact wrapping', () => {
+  it('only breaks URLs after a slash', () => {
+    expect(r(<Contact />).replaceAll('<!-- -->', '')).toContain('buymeacoffee.com/<wbr/>aelxand')
+  })
+})

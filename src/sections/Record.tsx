@@ -56,23 +56,26 @@ export function Record() {
     const step = () => {
       raf = 0
       const el = section.current
-      if (!el || !mq.matches) return
-      const travel = el.offsetHeight - innerHeight
-      const p = travel > 0 ? Math.min(1, Math.max(0, -el.getBoundingClientRect().top / travel)) : 0
-      const idx = Math.min(tracks.length, Math.floor(p * (tracks.length + 1))) - 1
-      // Only a change of scroll step moves the needle, so a hovered track stays put while the page is still.
+      if (!el) return
+      let idx: number
+      if (mq.matches) {
+        // Desktop: the pinned section's scroll travel is split into one step per track, the first step is the cover.
+        const travel = el.offsetHeight - innerHeight
+        const p = travel > 0 ? Math.min(1, Math.max(0, -el.getBoundingClientRect().top / travel)) : 0
+        idx = Math.min(tracks.length, Math.floor(p * (tracks.length + 1))) - 1
+      } else {
+        // Phones: the deck sticks at the top; the last row whose top has passed under its bottom edge plays.
+        const line = el.querySelector('.lp__deck')!.getBoundingClientRect().bottom
+        const rows = [...el.querySelectorAll<HTMLElement>('.tracklist__row')]
+        idx = rows.reduce((acc, r, i) => (r.getBoundingClientRect().top < line ? i : acc), -1)
+      }
+      // Only a change of step moves the needle, so a hovered track stays put while the page is still.
       if (idx !== last) { last = idx; setActive(idx) }
     }
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(step) }
     addEventListener('scroll', onScroll, { passive: true })
-
-    // Phones: the sleeve sticks at the top and the row crossing the line just below it plays.
-    const io = new IntersectionObserver(es => {
-      if (mq.matches) return
-      for (const e of es) if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.index))
-    }, { rootMargin: '-68% 0px -24% 0px' })
-    section.current?.querySelectorAll('[data-index]').forEach(el => io.observe(el))
-    return () => { removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); io.disconnect() }
+    addEventListener('resize', onScroll)
+    return () => { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); cancelAnimationFrame(raf) }
   }, [])
 
   /** Clicking a row on desktop scrolls to that track's step, so scroll and selection agree. */
@@ -94,7 +97,7 @@ export function Record() {
           </div>
         </div>
         <div className="lp__side">
-          <div data-index={-1}><SectionHead id="side-a" title={t('sideA.title')} em={t('sideA.em')} /></div>
+          <SectionHead id="side-a" title={t('sideA.title')} em={t('sideA.em')} />
           <ol className="tracklist">
             {tracks.map((tr, i) => (
               <li key={tr.name}>

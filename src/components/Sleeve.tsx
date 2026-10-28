@@ -85,11 +85,7 @@ export function Sleeve({ tracks, active, motto, mottoRest }: { tracks: Track[]; 
               {tr.media
                 ? <video data-index={i} src={tr.media.video} poster={tr.media.poster} muted loop playsInline preload="none" />
                 : (
-                  <div className="cover-type">
-                    <span className="cover-type__code">{tr.code}</span>
-                    <b>{tr.name}</b>
-                    <span className="cover-type__lang">{tr.language?.toLowerCase()}</span>
-                  </div>
+                  <div className="cover-type"><b>{tr.name}</b></div>
                 )}
             </div>
           ))}
