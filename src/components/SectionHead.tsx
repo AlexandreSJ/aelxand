@@ -1,6 +1,7 @@
 import { useTextFx } from '../hooks/useTextFx'
 
-type Variant = 'rail' | 'sm'
+/** stack: the italic phrase drops to its own line. */
+type Variant = 'rail' | 'sm' | 'stack'
 
 export function SectionHead({ id, title, em, variant }: { id: string; title: string; em: string; variant?: Variant }) {
   const ref = useTextFx<HTMLHeadingElement>('glitch', ['view'])

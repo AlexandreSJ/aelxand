@@ -88,7 +88,7 @@ export function Record() {
   }
 
   return (
-    <section ref={section} className="lp" aria-labelledby="side-a" style={{ '--steps': tracks.length } as React.CSSProperties}>
+    <section ref={section} className="lp" id="side-a" aria-labelledby="side-a-h" style={{ '--steps': tracks.length } as React.CSSProperties}>
       <div className="lp__stage wrap">
         <div className="lp__deck">
           <Sleeve tracks={tracks} active={active} motto={t('hero.motto')} mottoRest={t('hero.philosophy_rest')} />
@@ -97,7 +97,7 @@ export function Record() {
           </div>
         </div>
         <div className="lp__side">
-          <SectionHead id="side-a" title={t('sideA.title')} em={t('sideA.em')} />
+          <SectionHead id="side-a-h" title={t('sideA.title')} em={t('sideA.em')} variant="stack" />
           <ol className="tracklist">
             {tracks.map((tr, i) => (
               <li key={tr.name}>
