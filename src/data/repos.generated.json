@@ -1,5 +1,14 @@
 [
   {
+    "name": "aelxand",
+    "description": null,
+    "language": "TypeScript",
+    "stars": 0,
+    "pushedAt": "2026-10-28T00:50:47Z",
+    "homepage": "https://aelxand.vercel.app",
+    "fork": false
+  },
+  {
     "name": "AlexandreSJ",
     "description": null,
     "language": null,
@@ -60,15 +69,6 @@
     "stars": 0,
     "pushedAt": "2026-05-21T01:22:22Z",
     "homepage": null,
-    "fork": false
-  },
-  {
-    "name": "aelxand",
-    "description": null,
-    "language": "TypeScript",
-    "stars": 0,
-    "pushedAt": "2026-05-21T00:55:38Z",
-    "homepage": "https://aelxand.vercel.app",
     "fork": false
   },
   {

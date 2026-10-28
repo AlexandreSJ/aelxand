@@ -1,5 +1,5 @@
 .bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.bg__layer{position:absolute;left:0;top:0;width:100%;image-rendering:pixelated;will-change:transform}
+.bg__layer{position:absolute;left:0;top:0;width:100%;will-change:transform}
 
 .record{position:relative}
 .disc{position:absolute;z-index:0;width:72%;aspect-ratio:1;top:14%;right:-50%;border-radius:50%;

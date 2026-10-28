@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { B8, RED, bayer8, ditherBayer, paintGlow, paintHalftone, paintSpecks, toDarkness } from './dither'
+import { B8, RED, bayer8, ditherBayer, dotsByColor, paintGlow, paintHalftone, paintSpecks, toDarkness } from './dither'
 
 const field = (w: number, h: number, v: number) => new Float32Array(w * h).fill(v)
 const out = (w: number, h: number) => new Uint8ClampedArray(w * h * 4)
@@ -67,5 +67,15 @@ describe('paintSpecks', () => {
     for (let i = 3; i < a.length; i += 4) if (a[i]) on++
     expect(on / (160 * 120)).toBeGreaterThan(0.002)
     expect(on / (160 * 120)).toBeLessThan(0.03)
+  })
+})
+
+describe('dotsByColor', () => {
+  it('groups lit cells by their rgba so each colour is drawn in one pass', () => {
+    const o = out(3, 1)
+    o.set([238, 0, 34, 46, 0, 0, 0, 0, 238, 0, 34, 46])
+    const groups = dotsByColor(o, 3, 1)
+    expect([...groups.keys()]).toEqual(['rgba(238,0,34,0.180)'])
+    expect(groups.get('rgba(238,0,34,0.180)')).toEqual([0, 0, 2, 0])
   })
 })

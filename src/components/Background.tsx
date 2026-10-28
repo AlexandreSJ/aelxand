@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { paintGlow, paintHalftone, paintSpecks } from '../lib/dither'
+import { dotsByColor, paintGlow, paintHalftone, paintSpecks } from '../lib/dither'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 
 const CELL = 3
@@ -12,14 +12,17 @@ const BLEED = 32
 type Paint = (o: Uint8ClampedArray, w: number, h: number) => void
 /** far → near: the nearer the layer, the faster it moves with scroll and pointer. */
 /** blur is a depth of field: the farther the layer, the softer, so text over it stays readable. */
-const LAYERS: { paint: Paint; depth: number; blur: number }[] = [
-  { paint: paintGlow, depth: 0.35, blur: 2.4 },
-  { paint: paintHalftone, depth: 0.7, blur: 1.4 },
-  { paint: paintSpecks, depth: 1.3, blur: 0.6 },
+/** dot is the circle radius as a fraction of the cell. */
+const LAYERS: { paint: Paint; depth: number; blur: number; dot: number }[] = [
+  { paint: paintGlow, depth: 0.35, blur: 1.1, dot: 0.5 },
+  { paint: paintHalftone, depth: 0.7, blur: 0.7, dot: 0.46 },
+  { paint: paintSpecks, depth: 1.3, blur: 0.4, dot: 0.75 },
 ]
+/** Dots are drawn at real resolution, capped so a retina screen does not triple the canvas memory. */
+const MAX_DPR = 1.5
 
 /**
- * Three dithered layers, painted once and moved only with transforms, so the
+ * Three dithered layers of round dots, painted once and moved only with transforms, so the
  * ground reads as depth: scroll drifts them at different speeds and the pointer
  * tilts them slightly against each other.
  */
@@ -34,15 +37,30 @@ export function Background() {
 
     const paint = () => {
       travel = innerHeight * TRAVEL
+      const dpr = Math.min(devicePixelRatio || 1, MAX_DPR)
+      const cssW = innerWidth + BLEED * 2, cssH = innerHeight + travel
+      const cw = Math.ceil(cssW / CELL), ch = Math.ceil(cssH / CELL)
       els.forEach((el, i) => {
-        el.width = Math.ceil((innerWidth + BLEED * 2) / CELL)
-        el.style.width = `${innerWidth + BLEED * 2}px`
-        el.height = Math.ceil((innerHeight + travel) / CELL)
-        el.style.height = `${innerHeight + travel}px`
+        el.width = Math.round(cssW * dpr)
+        el.height = Math.round(cssH * dpr)
+        el.style.width = `${cssW}px`
+        el.style.height = `${cssH}px`
+        // The dither decides which cells are lit; each lit cell is drawn as a round dot.
+        const cells = new Uint8ClampedArray(cw * ch * 4)
+        LAYERS[i].paint(cells, cw, ch)
         const g = el.getContext('2d')!
-        const img = g.createImageData(el.width, el.height)
-        LAYERS[i].paint(img.data, el.width, el.height)
-        g.putImageData(img, 0, 0)
+        g.setTransform(dpr, 0, 0, dpr, 0, 0)
+        const r = CELL * LAYERS[i].dot
+        for (const [color, xy] of dotsByColor(cells, cw, ch)) {
+          const path = new Path2D()
+          for (let k = 0; k < xy.length; k += 2) {
+            const cx = (xy[k] + 0.5) * CELL, cy = (xy[k + 1] + 0.5) * CELL
+            path.moveTo(cx + r, cy)
+            path.arc(cx, cy, r, 0, Math.PI * 2)
+          }
+          g.fillStyle = color
+          g.fill(path)
+        }
       })
     }
     const frame = () => {

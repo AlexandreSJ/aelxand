@@ -71,12 +71,27 @@ const hash = (x: number, y: number) => {
   return ((n ^ (n >>> 16)) >>> 0) / 4294967296
 }
 
-/** Nearest parallax layer: sparse 2x2 specks, a few red, that drift fastest and give the ground depth. */
+/** Nearest parallax layer: sparse single specks, a few red, that drift fastest and give the ground depth. */
 export function paintSpecks(out: Uint8ClampedArray, w: number, h: number): void {
-  for (let y = 0; y < h; y += 2) for (let x = 0; x < w; x += 2) {
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
     const r = hash(x, y)
-    if (r > 0.012) continue
-    const c = r < 0.003 ? RED : INK
-    for (const [dx, dy] of [[0, 0], [1, 0], [0, 1], [1, 1]]) if (x + dx < w && y + dy < h) put(out, (y + dy) * w + x + dx, c, 70)
+    if (r < 0.004) put(out, y * w + x, r < 0.001 ? RED : INK, 90)
   }
+}
+
+/**
+ * Lit cells grouped by colour as flat [x0, y0, x1, y1, …] cell coordinates,
+ * so a renderer can draw every dot of one colour in a single path.
+ */
+export function dotsByColor(out: Uint8ClampedArray, w: number, h: number): Map<string, number[]> {
+  const groups = new Map<string, number[]>()
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const o = (y * w + x) * 4
+    if (!out[o + 3]) continue
+    const key = `rgba(${out[o]},${out[o + 1]},${out[o + 2]},${(out[o + 3] / 255).toFixed(3)})`
+    let g = groups.get(key)
+    if (!g) groups.set(key, (g = []))
+    g.push(x, y)
+  }
+  return groups
 }
