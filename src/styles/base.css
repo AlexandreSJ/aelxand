@@ -25,6 +25,6 @@ main{overflow-x:clip}
 .link:hover .icon{transform:translate(2px,-2px)}
 time,.index__date,.track__meta{font-variant-numeric:tabular-nums}
 /* CJK has no italic. Only Fraunces' italic file ships, so ja swaps the voice to the reading face, upright, keeping its colour and weight. */
-:lang(ja) :is(em.v,.sleeve__motto,.track__voice,.side-b__lede,.back__lede,.bonus__list span,.marquee__item--v){font-family:var(--f-read);font-style:normal;font-synthesis:none}
+:lang(ja) :is(em.v,.sleeve__motto,.note__voice,.side-b__lede,.marquee__item--v){font-family:var(--f-read);font-style:normal;font-synthesis:none}
 /* in-page links land below the 56px sticky topbar with breathing room */
 :where(section[id],h2[id],article[id]){scroll-margin-top:96px}

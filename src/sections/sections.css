@@ -57,18 +57,18 @@
 .side-b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,clamp(240px,30vw,400px));gap:clamp(32px,5vw,80px);align-items:start}
 .side-b__head{display:grid;gap:14px;margin-bottom:clamp(24px,3vw,40px)}
 .side-b__head .section-head{margin:0}
-.side-b__lede{font-family:var(--f-voice);font-style:italic;font-weight:300;font-size:1.15rem;line-height:1.4;color:var(--ink-dim);max-width:44ch}
+.side-b__lede{font-family:var(--f-voice);font-style:italic;font-weight:300;font-size:clamp(1.02rem,1.4vw,1.2rem);line-height:1.4;color:var(--ink-dim);max-width:44ch}
 .side-b__disc{position:sticky;top:96px}
 .side-b__disc .disc{position:relative;inset:auto;width:100%;top:0;right:0}
-.disc--b .disc__label{inset:30%;padding-top:20%;gap:6px;font-size:.62rem}
-.disc--b .disc__label b{font-size:clamp(.8rem,1.3vw,1.1rem);max-width:80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.disc--b .disc__label{inset:30%;padding-top:20%;gap:6px;font-size:.72rem}
+.disc--b .disc__label b{font-size:.75rem;max-width:80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .index{list-style:none;margin:0;padding:0;border-top:.5px solid var(--line)}
 .index__row{display:grid;grid-template-columns:40px minmax(100px,170px) minmax(0,1fr) 84px 56px 18px;gap:14px;align-items:baseline;padding:13px 0;border-bottom:.5px solid var(--line);transition:background-color var(--snap)}
 .index__row[data-active]{background:var(--tint)}
 .index__code{font:400 .8rem/1 var(--f-label);color:var(--red-ink)}
-.index__name{font-family:var(--f-structure);font-weight:800;font-size:1.15rem;letter-spacing:-.01em;text-decoration:none;overflow-wrap:anywhere;transition:color var(--snap)}
+.index__name{font-family:var(--f-structure);font-weight:800;font-size:clamp(1.02rem,1.4vw,1.2rem);letter-spacing:-.01em;text-decoration:none;overflow-wrap:anywhere;transition:color var(--snap)}
 .index__name:hover,.index__row[data-active] .index__name{color:var(--red-ink)}
-.index__desc{font-size:.9rem;color:var(--ink-dim)}
+.index__desc{font-size:1rem;color:var(--ink-dim)}
 .index__lang,.index__date{font:400 .72rem/1 var(--f-mono);color:var(--ink-faint)}
 .index__live a{color:var(--ink-muted);transition:color var(--snap)}
 .index__live a:hover{color:var(--red)}
@@ -78,7 +78,7 @@
 .contact__links{list-style:none;margin:0;padding:0;border-top:.5px solid var(--line)}
 .contact__links a{display:grid;grid-template-columns:84px minmax(0,1fr) 20px;gap:16px;align-items:baseline;padding:18px 0;border-bottom:.5px solid var(--line);text-decoration:none}
 .contact__k{font:400 .78rem/1 var(--f-label);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint)}
-.contact__v{font-family:var(--f-structure);font-weight:800;font-size:clamp(1.1rem,1.8vw,1.5rem);line-height:1.05;letter-spacing:-.02em;overflow-wrap:normal;transition:color var(--snap)}
+.contact__v{font-family:var(--f-structure);font-weight:800;font-size:clamp(1.02rem,1.4vw,1.2rem);line-height:1.15;letter-spacing:-.02em;overflow-wrap:normal;transition:color var(--snap)}
 .contact__links .icon{width:1.1rem;height:1.1rem;align-self:center;color:var(--ink-faint);transition:color var(--snap),transform var(--move) var(--ease)}
 .contact__links a:hover .contact__v,.contact__links a:hover .icon{color:var(--red-ink)}
 .contact__links a:hover .icon{transform:translate(3px,-3px)}
@@ -93,7 +93,7 @@
 .footer a{color:var(--ink-muted)}
 
 @media (max-width:900px){
-  .lp{--sleeve-size:min(100%,520px);height:auto}
+  .lp{height:auto}
   /* phones: the deck sticks under the topbar while side A scrolls beneath it */
   .lp{--sleeve-size:min(100%,34svh)}
   .lp__stage{position:static;height:auto;grid-template-columns:1fr;row-gap:20px;padding-block:12px 40svh}
@@ -104,7 +104,7 @@
   .notes{width:100%;min-height:96px}
   .note__voice{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:4px}
   .note__meta{margin-top:6px}
-  .note__title{font-size:1.5rem}
+  .note__title{font-size:clamp(1.4rem,2.2vw,1.9rem)}
   .topbar__nav{display:none}
   .topbar__years{margin-left:auto}
   .backstage,.backstage__grid,.side-b,.duo{grid-template-columns:1fr}

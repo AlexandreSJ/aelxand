@@ -12,7 +12,10 @@
   --f-read:'Geist Variable',system-ui,sans-serif;
   --f-mono:'Fira Code Variable',ui-monospace,monospace;
   --f-label:'DotGothic16','Fira Code Variable',ui-monospace,monospace;
-  --crt-bg:#0e0507;--crt-fg:#ff3347;--crt-scan:.32;--crt-glow:0px;--crt-mask:.16;--crt-curve:0px;
+  --crt-bg:#0e0507;--crt-fg:#ff3347;--crt-hi:#ffd0d5;
+  /* CRT optics: chromatic fringe, RGB phosphor mask, vignette */
+  --crt-fringe-b:rgba(0,170,255,.18);--crt-fringe-r:rgba(255,0,80,.3);--crt-mask-r:rgba(255,0,0,.9);--crt-mask-g:rgba(0,255,0,.7);--crt-mask-b:rgba(0,80,255,.9);--crt-vignette:rgba(0,0,0,.5);
+  --crt-scan:.32;--crt-glow:0px;--crt-mask:.16;
   --radius:2px;--ease:cubic-bezier(.215,.61,.355,1);--snap:90ms;--move:.18s;
   color-scheme:dark;
 }

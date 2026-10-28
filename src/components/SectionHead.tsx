@@ -1,6 +1,6 @@
 import { useTextFx } from '../hooks/useTextFx'
 
-type Variant = 'rail' | 'sm' | 'xl'
+type Variant = 'rail' | 'sm'
 
 export function SectionHead({ id, title, em, variant }: { id: string; title: string; em: string; variant?: Variant }) {
   const ref = useTextFx<HTMLHeadingElement>('glitch', ['view'])

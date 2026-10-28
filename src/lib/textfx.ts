@@ -1,6 +1,4 @@
-import { B8 } from './dither'
-
-export type FxKind = 'scramble' | 'dissolve' | 'glitch'
+export type FxKind = 'scramble' | 'glitch'
 
 type Charified = HTMLElement & { _chars?: HTMLSpanElement[] }
 const GLYPHS = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghkmnpqrstuvwxyz0123456789#%&*+=/<>'
@@ -61,38 +59,6 @@ export function scramble(el: HTMLElement, opts: { duration?: number; rand?: () =
   }
 }
 
-let masks: string[] | null = null
-/** 17 Bayer coverage steps as 24px mask tiles (3px cells). */
-function dissolveMasks(): string[] {
-  if (masks) return masks
-  masks = []
-  for (let k = 0; k <= 16; k++) {
-    const c = document.createElement('canvas')
-    c.width = c.height = 24
-    const g = c.getContext('2d')!
-    g.fillStyle = '#000'
-    for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) if (B8[y][x] < k / 16) g.fillRect(x * 3, y * 3, 3, 3)
-    masks.push(`url(${c.toDataURL()})`)
-  }
-  return masks
-}
-
-export function dissolve(el: HTMLElement): () => void {
-  const m = dissolveMasks()
-  const t0 = performance.now(), duration = 560
-  let raf = 0
-  el.style.maskSize = '24px 24px'
-  const clear = () => { el.style.maskImage = '' }
-  const step = (t: number) => {
-    const p = Math.min(1, (t - t0) / duration)
-    el.style.maskImage = m[Math.round(p * 16)]
-    if (p < 1) raf = requestAnimationFrame(step)
-    else clear()
-  }
-  raf = requestAnimationFrame(step)
-  return () => { cancelAnimationFrame(raf); clear() }
-}
-
 export function glitch(el: HTMLElement): () => void {
   el.classList.remove('glitching')
   void el.offsetWidth
@@ -103,6 +69,5 @@ export function glitch(el: HTMLElement): () => void {
 
 export function runFx(kind: FxKind, el: HTMLElement): () => void {
   if (kind === 'scramble') return scramble(el)
-  if (kind === 'dissolve') return dissolve(el)
   return glitch(el)
 }

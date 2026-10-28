@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { B8, RED, bayer8, ditherAtkinson, ditherBayer, paintBand, paintGlow, paintHalftone, paintSpecks, toBrightness, toDarkness } from './dither'
+import { B8, RED, bayer8, ditherBayer, paintGlow, paintHalftone, paintSpecks, toDarkness } from './dither'
 
 const field = (w: number, h: number, v: number) => new Float32Array(w * h).fill(v)
 const out = (w: number, h: number) => new Uint8ClampedArray(w * h * 4)
@@ -31,27 +31,12 @@ describe('ditherBayer', () => {
   })
 })
 
-describe('ditherAtkinson', () => {
-  it('keeps mid gray between 35% and 65% coverage', () => {
-    const on = ditherAtkinson(field(64, 64, 0.5), 64, 64, out(64, 64), RED)
-    expect(on / 4096).toBeGreaterThan(0.35)
-    expect(on / 4096).toBeLessThan(0.65)
-  })
-})
-
 describe('toDarkness', () => {
   it('maps white to 0 and black to 1', () => {
     const rgba = new Uint8ClampedArray([255, 255, 255, 255, 0, 0, 0, 255])
     const d = toDarkness(rgba, 2)
     expect(d[0]).toBe(0)
     expect(d[1]).toBe(1)
-  })
-})
-
-describe('toBrightness', () => {
-  it('maps white to 1 and black to 0, for light-on-dark sources', () => {
-    const d = toBrightness(new Uint8ClampedArray([255, 255, 255, 255, 0, 0, 0, 255]), 2)
-    expect([d[0], d[1]]).toEqual([1, 0])
   })
 })
 
@@ -82,14 +67,5 @@ describe('paintSpecks', () => {
     for (let i = 3; i < a.length; i += 4) if (a[i]) on++
     expect(on / (160 * 120)).toBeGreaterThan(0.002)
     expect(on / (160 * 120)).toBeLessThan(0.03)
-  })
-})
-
-describe('paintBand', () => {
-  it('paints a band that is denser at the top than the bottom', () => {
-    const w = 64, h = 22, o = out(w, h)
-    paintBand(o, w, h)
-    const row = (y: number) => { let n = 0; for (let x = 0; x < w; x++) if (o[(y * w + x) * 4 + 3]) n++; return n }
-    expect(row(0)).toBeGreaterThan(row(h - 1))
   })
 })

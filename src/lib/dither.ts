@@ -36,34 +36,11 @@ export function toDarkness(rgba: Uint8ClampedArray, n: number): Float32Array {
   return d
 }
 
-/** Luma as ink amount for light-on-dark sources (terminal video, type covers). */
-export function toBrightness(rgba: Uint8ClampedArray, n: number): Float32Array {
-  const d = toDarkness(rgba, n)
-  for (let i = 0; i < n; i++) d[i] = 1 - d[i]
-  return d
-}
-
 export function ditherBayer(dark: Float32Array, w: number, h: number, out: Uint8ClampedArray, color: RGB, jitter = 0): number {
   let on = 0
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
     const i = y * w + x
     if (dark[i] > B8[(y + jitter) % 8][(x + jitter * 3) % 8]) { put(out, i, color); on++ }
-  }
-  return on
-}
-
-const ATKINSON = [[1, 0], [2, 0], [-1, 1], [0, 1], [1, 1], [0, 2]] as const
-
-export function ditherAtkinson(dark: Float32Array, w: number, h: number, out: Uint8ClampedArray, color: RGB): number {
-  const e = Float32Array.from(dark)
-  let on = 0
-  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-    const i = y * w + x, q = e[i] > 0.5 ? 1 : 0, err = (e[i] - q) / 8
-    if (q) { put(out, i, color); on++ }
-    for (const [dx, dy] of ATKINSON) {
-      const xx = x + dx, yy = y + dy
-      if (xx >= 0 && xx < w && yy < h) e[yy * w + xx] += err
-    }
   }
   return on
 }
@@ -84,13 +61,6 @@ export function paintHalftone(out: Uint8ClampedArray, w: number, h: number): voi
     // Capped below the cell radius so dots never merge into blocks behind text.
     const v = Math.min(0.42, ((x / w) * 0.5 + (1 - y / h) * 0.4) * 0.62)
     if (v > Math.hypot(cx, cy) / 3.6) put(out, y * w + x, INK, 18)
-  }
-}
-
-export function paintBand(out: Uint8ClampedArray, w: number, h: number): void {
-  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-    const v = Math.pow(1 - y / h, 1.6) * (0.75 + 0.25 * Math.sin(x / 19) * Math.cos(x / 7))
-    if (v > B8[y % 8][x % 8]) put(out, y * w + x, RED)
   }
 }
 
