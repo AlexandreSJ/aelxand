@@ -73,7 +73,7 @@
   },
   {
     "name": "web-dj",
-    "description": null,
+    "description": "Music step sequencer",
     "language": "TypeScript",
     "stars": 0,
     "pushedAt": "2026-05-16T19:25:38Z",
