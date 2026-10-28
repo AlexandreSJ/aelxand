@@ -14,9 +14,9 @@ type Paint = (o: Uint8ClampedArray, w: number, h: number) => void
 /** blur is a depth of field: the farther the layer, the softer, so text over it stays readable. */
 /** dot is the circle radius as a fraction of the cell. */
 const LAYERS: { paint: Paint; depth: number; blur: number; dot: number }[] = [
-  { paint: paintGlow, depth: 0.35, blur: 1.1, dot: 0.5 },
-  { paint: paintHalftone, depth: 0.7, blur: 0.7, dot: 0.46 },
-  { paint: paintSpecks, depth: 1.3, blur: 0.4, dot: 0.75 },
+  { paint: paintGlow, depth: 0.35, blur: 1.8, dot: 0.5 },
+  { paint: paintHalftone, depth: 0.7, blur: 1.4, dot: 0.2 },
+  { paint: paintSpecks, depth: 1.3, blur: 1, dot: 0.32 },
 ]
 /** Dots are drawn at real resolution, capped so a retina screen does not triple the canvas memory. */
 const MAX_DPR = 1.5
