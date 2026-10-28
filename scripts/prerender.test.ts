@@ -12,7 +12,7 @@ describe.skipIf(!built)('prerendered pages', () => {
       expect(html).toContain(`<html lang="${lang}" data-locale="${loc}">`)
       expect(html).toMatch(/<h1[^>]*>AlexandreSJ<\/h1>/)
       for (const t of record.sideA) expect(html).toContain(`id="track-${t.name}"`)
-      for (const t of record.sideB) expect(html).toContain(`>${t.name}</a>`)
+      for (const t of record.sideB.slice(0, 4)) expect(html).toContain(`>${t.name}</a>`)
       expect(html).toMatch(/~\d+ (years|anos|años)|約 \d+ 年/)
       expect(html).not.toContain('<!--app-html-->')
     })

@@ -43,7 +43,7 @@
 .tracklist__live{color:var(--red-ink)}
 .tracklist__stars{display:inline-flex;align-items:center;gap:4px}
 .tracklist__time{font:400 .72rem/1 var(--f-mono);color:var(--ink-faint);text-align:right}
-.tracklist__more{margin-top:18px}
+.tracklist__more,.side-b__more{margin-top:18px}
 
 /* backstage: rail title, rolling terminal, credits */
 .backstage{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}

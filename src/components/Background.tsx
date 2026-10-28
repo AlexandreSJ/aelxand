@@ -11,12 +11,12 @@ const BLEED = 32
 
 type Paint = (o: Uint8ClampedArray, w: number, h: number) => void
 /** far → near: the nearer the layer, the faster it moves with scroll and pointer. */
-/** blur is a depth of field: the farther the layer, the softer, so text over it stays readable. */
+/** blur is a depth of field focused on the middle layer: the far glow and the near specks go soft, like bokeh. */
 /** dot is the circle radius as a fraction of the cell. */
 const LAYERS: { paint: Paint; depth: number; blur: number; dot: number }[] = [
   { paint: paintGlow, depth: 0.35, blur: 1.8, dot: 0.5 },
-  { paint: paintHalftone, depth: 0.7, blur: 1.4, dot: 0.2 },
-  { paint: paintSpecks, depth: 1.3, blur: 1, dot: 0.32 },
+  { paint: paintHalftone, depth: 0.7, blur: 1.2, dot: 0.22 },
+  { paint: paintSpecks, depth: 1.3, blur: 2.2, dot: 0.32 },
 ]
 /** Dots are drawn at real resolution, capped so a retina screen does not triple the canvas memory. */
 const MAX_DPR = 1.5

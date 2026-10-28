@@ -4,17 +4,20 @@
 .term__dots i{width:10px;height:10px;border-radius:50%;border:.5px solid var(--line-strong)}
 .term__dots i:first-child{background:var(--red);border-color:var(--red)}
 .term__path{font:400 .74rem/1 var(--f-mono);color:var(--ink-muted)}
-.term__screen{position:relative;overflow:hidden;height:calc(16 * 1.7em + 2 * clamp(18px,3vw,30px));font:400 clamp(.74rem,1.2vw,.88rem)/1.7 var(--f-mono)}
-.term__rows{position:absolute;inset:auto 0 0;margin:0;padding:clamp(18px,3vw,30px);font:inherit;color:var(--crt-fg);white-space:pre-wrap;overflow-wrap:anywhere;
+.term__screen{position:relative;overflow:hidden;font:400 clamp(.74rem,1.2vw,.88rem)/1.7 var(--f-mono)}
+.term__rows{position:relative;margin:0;padding:clamp(18px,3vw,30px);font:inherit;color:var(--crt-fg);white-space:pre-wrap;overflow-wrap:anywhere;
   text-shadow:0 0 var(--crt-glow) color-mix(in srgb,var(--crt-fg) 80%,transparent),1px 0 0 var(--crt-fringe-b),-1px 0 0 var(--crt-fringe-r);animation:crt-flick 5s steps(1) infinite}
 .term__cmd b{font-weight:400;color:var(--ink-muted)}
 .term__out{color:var(--crt-hi);opacity:.75}
+.term__out b{font-weight:400;color:var(--ink-muted)}
+.term__h{font-weight:600;color:var(--crt-fg)}
+.term__h b{color:var(--red)}
 .term__cur{display:inline-block;width:.6em;height:1.05em;background:currentColor;vertical-align:-2px;animation:crt-blink 1s steps(2) infinite}
 .term__screen::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,var(--crt-scan)) 0 1px,transparent 1px 3px)}
 .term__screen::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;opacity:var(--crt-mask);mix-blend-mode:multiply;
   background:repeating-linear-gradient(90deg,var(--crt-mask-r) 0 1px,var(--crt-mask-g) 1px 2px,var(--crt-mask-b) 2px 3px)}
 .term__roll{position:absolute;left:0;right:0;top:0;height:22%;z-index:4;pointer-events:none;background:linear-gradient(transparent,color-mix(in srgb,var(--crt-fg) 6%,transparent),transparent);animation:crt-roll 8s linear infinite}
-.term__vig{position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(ellipse at center,transparent 60%,var(--crt-vignette) 100%),linear-gradient(var(--crt-bg),transparent 18%)}
+.term__vig{position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(ellipse at center,transparent 60%,var(--crt-vignette) 100%)}
 @keyframes crt-flick{0%{opacity:1}12%{opacity:.97}13%{opacity:1}83%{opacity:.96}84%{opacity:1}}
 @keyframes crt-roll{from{transform:translateY(-110%)}to{transform:translateY(560%)}}
 @keyframes crt-blink{50%{opacity:0}}

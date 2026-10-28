@@ -40,6 +40,7 @@
   "sideB.title": "Side B",
   "sideB.em": "every repository",
   "sideB.lede": "Every public repository, straight from GitHub.",
+  "sideB.more": "+{n} on GitHub",
   "stack.marquee": "stack",
   "now.title": "On",
   "now.em": "rotation",
