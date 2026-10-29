@@ -2,13 +2,6 @@
 .bg__layer{position:absolute;left:0;top:0;width:100%;will-change:transform}
 
 .record{position:relative}
-/* the rail: sits in the gap between sleeve and tracklist, one tick per featured project */
-.rail{position:absolute;z-index:0;top:12%;bottom:12%;right:calc(var(--sleeve-size,46vw) * -.13);translate:50% 0;display:grid;align-content:space-between;justify-items:center}
-.rail__track{position:absolute;left:50%;top:6px;bottom:6px;width:1px;background:var(--line);translate:-50% 0}
-.rail__fill{position:absolute;inset:0 0 auto;height:var(--fill);background:var(--red);transition:height .4s var(--ease)}
-.rail__n{position:relative;padding:4px 0;background:var(--paper);font:400 .75rem/1 var(--f-label);color:var(--ink-faint);transition:color var(--snap)}
-.rail__n[data-past]{color:var(--ink-muted)}
-.rail__n[data-on]{color:var(--red-ink);font-size:.95rem}
 .sleeve{position:relative;z-index:1;aspect-ratio:1;width:100%;overflow:hidden;background:var(--sleeve-board);border:.5px solid var(--line);box-shadow:0 30px 60px -28px #000}
 .sleeve__art{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;transition:opacity .35s var(--ease)}
 /* While a track plays the portrait is gone (unless the track is this site), so nothing of it shows between two tracks. */
@@ -33,5 +26,4 @@
 .sleeve__name{font-family:var(--f-structure);font-weight:800;font-size:clamp(2.4rem,calc(var(--sleeve-size,46vw) * .135),5.6rem);line-height:.9;letter-spacing:-.035em}
 .sleeve__motto{font-family:var(--f-voice);font-style:italic;font-weight:300;font-size:clamp(1.02rem,1.4vw,1.2rem);line-height:1.3;color:var(--ink-dim);margin-top:12px;max-width:34ch}
 .sleeve__motto b{font-weight:400;color:var(--ink)}
-@media (max-width:900px){.rail{display:none}}
 @media (max-width:520px){.sleeve__top{white-space:nowrap;padding:12px 14px 32px}.sleeve__top span+span{display:none}}
