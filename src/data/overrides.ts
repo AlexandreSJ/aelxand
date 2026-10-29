@@ -1,6 +1,7 @@
 import type { MessageKey } from '../i18n'
 
-export type Media = { video: string; poster: string }
+/** A recorded demo, or the dithered portrait itself (for this site). */
+export type Media = { video: string; poster: string } | { portrait: true }
 
 /**
  * Hand-written context layered over GitHub data. A repository with no entry
@@ -31,6 +32,6 @@ export const overrides: Record<string, Override> = {
     media: { video: '/media/aoi-web.mp4', poster: '/media/aoi-web.jpg' },
   },
   puddle: { side: 'A', order: 4, descKey: 'projects.puddle', status: 'stable', tags: ['rest', 'api'] },
-  aelxand: { side: 'A', order: 5, descKey: 'projects.aelxand', status: 'live', tags: ['react', 'canvas'] },
+  aelxand: { side: 'A', order: 5, descKey: 'projects.aelxand', status: 'live', tags: ['react', 'canvas'], media: { portrait: true } },
   AlexandreSJ: { hidden: true },
 }

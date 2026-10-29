@@ -2,7 +2,7 @@ import { useI18n } from '../i18n'
 import { profile } from '../data/profile'
 import { useYears } from '../hooks/useYears'
 import { SectionHead } from '../components/SectionHead'
-import { Terminal } from '../components/Terminal'
+import { StackGrid } from '../components/StackGrid'
 import { Icon } from '../components/Icon'
 
 export function Backstage() {
@@ -15,10 +15,10 @@ export function Backstage() {
     [t('liner.based'), t('liner.based_v')],
   ]
   return (
-    <section className="sheet wrap backstage" id="backstage" aria-labelledby="backstage-h">
+    <section className="sheet wrap backstage" id="stack" aria-labelledby="backstage-h">
       <SectionHead id="backstage-h" title={t('liner.title')} em={t('liner.em')} variant="rail" />
       <div className="backstage__grid">
-        <Terminal file="stacks.md" stacks={profile.stacks} path="/home/aelxand" />
+        <StackGrid />
         <div>
           <dl className="specs">
             {credits.map(([k, v]) => <div key={k} className="specs__row"><dt>{k}</dt><dd>{v}</dd></div>)}

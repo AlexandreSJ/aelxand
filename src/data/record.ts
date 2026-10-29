@@ -13,7 +13,7 @@ export type Repo = {
 
 export type Track = Repo & Omit<Override, 'live'> & { code: string; live: string | null }
 
-/** Split public repositories into a curated side A and an automatic side B. */
+/** Split public repositories into curated featured projects (side A) and the automatic rest (side B), numbered 01… across both. */
 export function pressRecord(repos: Repo[], overrides: Record<string, Override>): { sideA: Track[]; sideB: Track[] } {
   const visible = repos.filter(r => !r.fork && !overrides[r.name]?.hidden)
   const track = (r: Repo, code: string): Track => {
@@ -26,7 +26,8 @@ export function pressRecord(repos: Repo[], overrides: Record<string, Override>):
   const b = visible
     .filter(r => overrides[r.name]?.side !== 'A')
     .sort((x, y) => y.pushedAt.localeCompare(x.pushedAt))
-  return { sideA: a.map((r, i) => track(r, `A${i + 1}`)), sideB: b.map((r, i) => track(r, `B${i + 1}`)) }
+  const code = (i: number) => String(i + 1).padStart(2, '0')
+  return { sideA: a.map((r, i) => track(r, code(i))), sideB: b.map((r, i) => track(r, code(a.length + i))) }
 }
 
 export const record = pressRecord(generated as Repo[], curated)

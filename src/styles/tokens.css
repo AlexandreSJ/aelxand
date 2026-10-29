@@ -7,6 +7,8 @@
   --line:color-mix(in srgb,var(--ink) 20%,transparent);
   --line-strong:color-mix(in srgb,var(--ink) 38%,transparent);
   --tint:color-mix(in srgb,var(--ink) 5%,transparent);
+  /* an opaque surface lifted toward ink only, so it adds no hue of its own (the README reader) */
+  --surface:color-mix(in srgb,var(--paper) 96%,var(--ink));
   --f-structure:'Bricolage Grotesque Variable',system-ui,sans-serif;
   --f-voice:'Fraunces Variable',Georgia,serif;
   --f-read:'Geist Variable',system-ui,sans-serif;

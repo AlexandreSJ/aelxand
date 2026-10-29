@@ -4,7 +4,7 @@ import { useReducedMotion } from '../hooks/useReducedMotion'
 import { useTextFx } from '../hooks/useTextFx'
 import { useI18n } from '../i18n'
 import type { Track } from '../data/record'
-import { Disc } from './Disc'
+import { Rail } from './Rail'
 
 const N = 200
 const REVEAL_MS = 700
@@ -58,13 +58,18 @@ function Portrait() {
 /**
  * The record sleeve. The cover is the dithered portrait; each side A track has
  * its own layer (the project's real video, or a clean type cover) that fades in
- * while that track is active.
+ * while that track is active. A track whose media is the portrait keeps it up.
+ * The rail beside it shows how far through the projects the scroll is.
  */
 export function Sleeve({ tracks, active, motto, mottoRest }: { tracks: Track[]; active: number; motto: string; mottoRest: string }) {
   const { t } = useI18n()
-  const name = useTextFx<HTMLHeadingElement>('glitch', ['mount', 'hover', 'idle'])
+  const name = useTextFx<HTMLParagraphElement>('glitch', ['mount', 'hover', 'idle'])
   const layers = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion()
+
+  const track = tracks[active]
+  // The portrait stays up for the cover and for a track whose media is the portrait itself.
+  const mode = !track ? 'cover' : track.media && 'portrait' in track.media ? 'portrait' : 'track'
 
   // Only the active track's video plays.
   useEffect(() => {
@@ -76,13 +81,14 @@ export function Sleeve({ tracks, active, motto, mottoRest }: { tracks: Track[]; 
 
   return (
     <div className="record">
-      <Disc><span>AELX-001</span><span>Side A</span></Disc>
-      <div className="sleeve" data-mode={active < 0 ? 'cover' : 'track'}>
+      <Rail tracks={tracks} active={active} />
+      <div className="sleeve" data-mode={mode}>
         <Portrait />
         <div ref={layers} className="sleeve__layers">
           {tracks.map((tr, i) => (
             <div key={tr.name} className="sleeve__layer" data-on={i === active || undefined} aria-hidden="true">
-              {tr.media
+              {tr.media && 'portrait' in tr.media ? null
+                : tr.media
                 ? <video data-index={i} src={tr.media.video} poster={tr.media.poster} muted loop playsInline preload="none" />
                 : (
                   <div className="cover-type"><b>{tr.name}</b></div>
@@ -90,9 +96,9 @@ export function Sleeve({ tracks, active, motto, mottoRest }: { tracks: Track[]; 
             </div>
           ))}
         </div>
-        <div className="sleeve__top"><span>AELX-001</span><span>{t('sleeve.role')}</span></div>
+        <div className="sleeve__top"><span>~/aelxand</span><span>{t('liner.based_v')}</span></div>
         <div className="sleeve__foot">
-          <h1 ref={name} className="sleeve__name fx" data-text="AlexandreSJ">AlexandreSJ</h1>
+          <p ref={name} className="sleeve__name fx" data-text="AlexandreSJ">AlexandreSJ</p>
           <p className="sleeve__motto"><b>{motto}</b>{mottoRest}</p>
         </div>
       </div>

@@ -33,8 +33,10 @@ function Note({ track, on }: { track: Track; on: boolean }) {
         {track.language && <span>{track.language.toLowerCase()}</span>}
         {track.stars > 0 && <span><Icon name="star" />{track.stars}</span>}
         <span>{t('projects.updated')} <time dateTime={track.pushedAt}>{yearMonth(track.pushedAt)}</time></span>
-        <a className="link" href={`https://github.com/AlexandreSJ/${track.name}`} target="_blank" rel="noreferrer" tabIndex={on ? 0 : -1}>{t('projects.source')}<Icon name="arrow" /></a>
-        {track.live && <a className="link" href={track.live} target="_blank" rel="noreferrer" tabIndex={on ? 0 : -1}>{t('projects.live')}<Icon name="arrow" /></a>}
+      </p>
+      <p className="note__actions">
+        {track.live && <a className="btn btn--live" href={track.live} target="_blank" rel="noreferrer" tabIndex={on ? 0 : -1}>{t('projects.open_live')}<Icon name="arrow" /></a>}
+        <a className="btn" href={`https://github.com/AlexandreSJ/${track.name}`} target="_blank" rel="noreferrer" tabIndex={on ? 0 : -1}>{t('projects.open_source')}<Icon name="arrow" /></a>
       </p>
     </article>
   )
@@ -42,7 +44,7 @@ function Note({ track, on }: { track: Track; on: boolean }) {
 
 /**
  * The record player. On desktop the stage is pinned while the section scrolls
- * past: each short stretch of scroll (or hovering a row) plays the next track,
+ * past: each short stretch of scroll (or clicking a row) plays the next track,
  * and its note appears under the sleeve. On phones, tapping a row plays it.
  */
 export function Record() {
@@ -69,7 +71,7 @@ export function Record() {
         const rows = [...el.querySelectorAll<HTMLElement>('.tracklist__row')]
         idx = rows.reduce((acc, r, i) => (r.getBoundingClientRect().top < line ? i : acc), -1)
       }
-      // Only a change of step moves the needle, so a hovered track stays put while the page is still.
+      // Only a change of step moves the needle, so a clicked track stays put while the page is still.
       if (idx !== last) { last = idx; setActive(idx) }
     }
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(step) }
@@ -88,7 +90,7 @@ export function Record() {
   }
 
   return (
-    <section ref={section} className="lp" id="side-a" aria-labelledby="side-a-h" style={{ '--steps': tracks.length } as React.CSSProperties}>
+    <section ref={section} className="lp" id="projects" aria-labelledby="side-a-h" style={{ '--steps': tracks.length } as React.CSSProperties}>
       <div className="lp__stage wrap">
         <div className="lp__deck">
           <Sleeve tracks={tracks} active={active} motto={t('hero.motto')} mottoRest={t('hero.philosophy_rest')} />
@@ -103,7 +105,7 @@ export function Record() {
               <li key={tr.name}>
                 <button type="button" className="tracklist__row" data-index={i} aria-pressed={i === active}
                   aria-label={t('sideA.play', { name: tr.name })}
-                  onPointerEnter={e => e.pointerType === 'mouse' && setActive(i)} onFocus={() => setActive(i)} onClick={() => choose(i)}>
+                  onFocus={() => setActive(i)} onClick={() => choose(i)}>
                   <span className="tracklist__code">{tr.code}</span>
                   <span className="tracklist__name">{tr.name}</span>
                   <span className="tracklist__info">
@@ -116,7 +118,7 @@ export function Record() {
               </li>
             ))}
           </ol>
-          <a className="link tracklist__more" href="#side-b">{t('sideA.more', { n: record.sideB.length })}<Icon name="arrow" /></a>
+          <a className="link tracklist__more" href="#repositories">{t('sideA.more', { n: record.sideB.length })}<Icon name="arrow" /></a>
         </div>
       </div>
     </section>

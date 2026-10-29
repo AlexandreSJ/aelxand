@@ -7,15 +7,15 @@ export function Header() {
   const { t } = useI18n()
   const years = useYears()
   const links: [string, string][] = [
-    ['#side-a', t('nav.sideA')],
-    ['#backstage', t('nav.backstage')],
-    ['#side-b', t('nav.sideB')],
+    ['#projects', t('nav.sideA')],
+    ['#stack', t('nav.backstage')],
+    ['#repositories', t('nav.sideB')],
     ['#contact', t('nav.contact')],
   ]
   return (
     <header className="topbar">
       <div className="wrap topbar__in">
-        <a className="topbar__mark" href="#side-a"><span>~/</span>aelxand</a>
+        <a className="topbar__mark" href="#top"><span>~/</span>aelxand</a>
         <nav className="topbar__nav" aria-label="primary">
           {links.map(([href, label], i) => (
             <Fragment key={href}>
