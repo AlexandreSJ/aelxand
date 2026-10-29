@@ -1,0 +1,156 @@
+<div><div align="center">
+<div><h1>Puddle</h1><span id="md-puddle-puddle"></span></div>
+  <p>
+    A lightweight REST API built with Go and the Gin framework, featuring automatic OpenAPI 3.1 documentation and a clean layered architecture. 
+  </p>
+  <a href="https://go.dev/" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/Go-1.26.2-00ADD8?style=flat-square&amp;logo=go" alt="Go Version" loading="lazy" /></a>
+  <a href="https://github.com/gin-gonic/gin" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/Gin-Framework-00ADD8?style=flat-square&amp;logo=go" alt="Framework" loading="lazy" /></a>
+  <a href="https://github.com/AlexandreSJ/puddle/blob/HEAD/LICENSE" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License: MIT" loading="lazy" /></a>
+  <a href="https://swagger.io/specification/" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/API-OpenAPI%203.1-green?style=flat-square" alt="API Docs" loading="lazy" /></a>
+  <a href="https://github.com/AlexandreSJ" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/GitHub-AlexandreSJ-red?style=flat-square" alt="AlexandreSJ Github" loading="lazy" /></a>
+</div>
+<div align="center">
+  <a href="https://git.io/typing-svg" target="_blank" rel="noreferrer"><img src="https://readme-typing-svg.herokuapp.com?font=Zain&amp;size=22&amp;duration=2000&amp;pause=6000&amp;color=FFFFFF&amp;center=true&amp;vCenter=true&amp;width=435&amp;lines=this+is+a+portfolio+rest+api+o%2F;it's+a+puddle%2C+not+a+poodle;don't+cry+over+the+spilled+poodles;can+you+see+the+reflection%3F;splat%2C+splat%2C+splat!;oh%2C+my+sock+got+wet;well%2C+it's+not+a+well...;can't+create+a+storm+on+it;can't+even+create+a+drizzle;you+sure+like+to+read%2C+good+for+you!;i+appreciate+you+being+here;where+are+my+ducks+now...;what+is+the+biggest+puddle%3F+;what+is+the+smallest+lake%3F;it+is+all+puddle;always+has+been" alt="Typing SVG" loading="lazy" /></a>
+</div>
+<div><h2>Features</h2><span id="md-puddle-features"></span></div>
+<p>I followed <a href="https://go.dev/doc/tutorial/web-service-gin" target="_blank" rel="noreferrer">this</a> example, and went freestyle on some cool stuff i was learning. Feel free to check it out!</p>
+<ul>
+<li><strong>Gin Framework</strong> - Fast HTTP web framework with middleware support</li>
+<li><strong>Zero-annotation API Documentation</strong> - Automatic OpenAPI 3.1 spec generation with <a href="https://github.com/MUKE-coder/gin-docs" target="_blank" rel="noreferrer">gin-docs</a></li>
+<li><strong>Layered Architecture</strong> - Clean separation of concerns (handlers → store → data)</li>
+<li><strong>Dependency Injection</strong> - Handler dependencies injected at startup</li>
+<li><strong>Interactive API Docs</strong> - Swagger UI and Scalar UI out of the box</li>
+<li><strong>Hot Reload</strong> - Development with <a href="https://github.com/cosmtrek/air" target="_blank" rel="noreferrer">Air</a> for rapid iteration</li>
+<li><strong>TUI Components</strong> - Terminal User Interface using the Charm ecosystem (planned)</li>
+</ul>
+<div><h2>Project Structure</h2><span id="md-puddle-project-structure"></span></div>
+<div><pre><code>puddle/
+├── cmd/
+│   └── puddle/
+│       └── main.go              # Application entry point
+├── internal/
+│   ├── model/                   # Data structures (structs, DTOs)
+│   │   └── album.go
+│   ├── store/                   # Data access layer (in-memory / DB)
+│   │   └── album.go
+│   ├── handler/                 # HTTP handlers (presentation layer)
+│   │   ├── ping.go
+│   │   └── album.go
+│   ├── router/                  # Route registration and gin.Engine setup
+│   │   └── router.go
+│   └── config/                  # Configuration parsing and management
+├── build/                       # Compiled binary (git-ignored)
+├── docs/                        # Documentation
+├── go.mod                       # Go module definition
+├── go.sum                       # Dependency checksums
+└── Makefile                     # Build automation
+</code></pre></div>
+<div><h2>Architecture</h2><span id="md-puddle-architecture"></span></div>
+<p>Puddle follows a <strong>layered architecture pattern</strong>:</p>
+<div><pre><code>HTTP Request → handler → store → Data
+                 ↓
+           JSON Response
+</code></pre></div>
+<ul>
+<li><strong>Handlers</strong> - Parse requests, delegate to store, format responses (no business logic)</li>
+<li><strong>Store</strong> - Data access layer handling CRUD operations (currently in-memory, swappable)</li>
+<li><strong>Models</strong> - Data structures shared across layers</li>
+</ul>
+<p>Dependency injection is used to wire components in <code>main.go</code>:</p>
+<div><pre><span>albumStore</span> <span>:=</span> <span>store</span>.<span>NewAlbumStore</span>()
+<span>albumHandler</span> <span>:=</span> <span>handler</span>.<span>NewAlbumHandler</span>(<span>albumStore</span>)
+<span>r</span> <span>:=</span> <span>router</span>.<span>SetupRouter</span>(<span>albumHandler</span>)</pre></div>
+<div><h2>Getting Started</h2><span id="md-puddle-getting-started"></span></div>
+<p>If you want to install this project and try for yourself, jsut keep reading this section.</p>
+<div><h3>Prerequisites</h3><span id="md-puddle-prerequisites"></span></div>
+<ul>
+<li>Go 1.26.2 or later</li>
+<li>(Optional) <a href="https://github.com/cosmtrek/air" target="_blank" rel="noreferrer">Air</a> for hot reload</li>
+</ul>
+<div><h3>Installation</h3><span id="md-puddle-installation"></span></div>
+<div><pre><span><span>#</span> Clone the repository</span>
+git clone https://github.com/yourusername/puddle.git
+<span>cd</span> puddle
+
+<span><span>#</span> Build the project</span>
+make build</pre></div>
+<div><h3>Run</h3><span id="md-puddle-run"></span></div>
+<div><pre><span><span>#</span> Run the server</span>
+./build/puddle
+
+<span><span>#</span> Or with hot reload during development</span>
+make run</pre></div>
+<p>The server starts on <code>http://localhost:8081</code>.</p>
+<div><h3>API Endpoints</h3><span id="md-puddle-api-endpoints"></span></div>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/ping</code></td>
+<td>Health check</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/albums</code></td>
+<td>List all albums</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/albums/:id</code></td>
+<td>Get album by ID</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/albums</code></td>
+<td>Create a new album</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/albums/:id</code></td>
+<td>Delete an album</td>
+</tr>
+</tbody>
+</table>
+<div><h2>API Documentation</h2><span id="md-puddle-api-documentation"></span></div>
+<p>Interactive API documentation is available at:</p>
+<ul>
+<li><strong>Swagger UI</strong>: <a href="http://localhost:8081/docs" target="_blank" rel="noreferrer">http://localhost:8081/docs</a></li>
+<li><strong>Scalar UI</strong>: <a href="http://localhost:8081/docs?ui=scalar" target="_blank" rel="noreferrer">http://localhost:8081/docs?ui=scalar</a></li>
+<li><strong>OpenAPI Spec</strong>: <a href="http://localhost:8081/docs/openapi.json" target="_blank" rel="noreferrer">http://localhost:8081/docs/openapi.json</a></li>
+</ul>
+<div><h2>Development</h2><span id="md-puddle-development"></span></div>
+<div><h3>Running with hot reload</h3><span id="md-puddle-running-with-hot-reload"></span></div>
+<div><pre>make run</pre></div>
+<p>This uses <a href="https://github.com/cosmtrek/air" target="_blank" rel="noreferrer">Air</a> to automatically rebuild on file changes.</p>
+<div><h3>Clean build artifacts</h3><span id="md-puddle-clean-build-artifacts"></span></div>
+<div><pre>make clean</pre></div>
+<div><h3>Tidy dependencies</h3><span id="md-puddle-tidy-dependencies"></span></div>
+<div><pre>make tidy</pre></div>
+<div><h2>Example</h2><span id="md-puddle-example"></span></div>
+<p>Create a new album:</p>
+<div><pre>curl -X POST http://localhost:8081/api/v1/albums \
+  -H <span><span>"</span>Content-Type: application/json<span>"</span></span> \
+  -d <span><span>'</span>{"id": "1", "title": "Blue Train", "artist": "John Coltrane", "price": 56.99}<span>'</span></span></pre></div>
+<p>List all albums:</p>
+<div><pre>curl http://localhost:8081/api/v1/albums</pre></div>
+<div><h2>Documentation</h2><span id="md-puddle-documentation"></span></div>
+<p>What i think is pretty cool is that you can easily open OpenAPI Swagger, which is usually automatically created, and then switch with ScalarUI.</p>
+<p>Just call <code>/docs</code> and change the view by clicking on the top-right button, or open:</p>
+<div><pre>http://localhost:8081/docs<span>?</span>ui=swagger
+
+<span><span>#</span>or</span>
+
+http://localhost:8081/docs<span>?</span>ui=scalar
+</pre></div>
+<div><h2>License</h2><span id="md-puddle-license"></span></div>
+<p>This project is licensed under the MIT License - see the <a href="https://github.com/AlexandreSJ/puddle/blob/HEAD/LICENSE" target="_blank" rel="noreferrer">LICENSE</a> file for details.</p>
+<hr />
+<p><a href="https://camo.githubusercontent.com/1f091ff1893127a81aa5b05cc5898718d84ee33185bbdb5b121e29fecacdd4cf/68747470733a2f2f63617073756c652d72656e6465722e76657263656c2e6170702f6170693f747970653d776176696e67266865696768743d31303026636f6c6f723d303a6161626266662c35303a6161626265652c3130303a63636565666626746578743df09fa6862673656374696f6e3d666f6f74657226726576657273616c3d7472756526666f6e7453697a653d323226666f6e74416c69676e3d353026666f6e74436f6c6f723d353535353535267465787442673d66616c736526666f6e74416c69676e593d3630" target="_blank" rel="noreferrer"><img src="https://capsule-render.vercel.app/api?type=waving&amp;height=100&amp;color=0:aabbff,50:aabbee,100:cceeff&amp;text=🦆&amp;section=footer&amp;reversal=true&amp;fontSize=22&amp;fontAlign=50&amp;fontColor=555555&amp;textBg=false&amp;fontAlignY=60" loading="lazy" /></a></p>
+</div>
