@@ -23,10 +23,10 @@ describe('pressRecord', () => {
   const { sideA, sideB } = pressRecord(repos, overrides)
 
   it('puts curated repos on side A in their chosen order', () => {
-    expect(sideA.map(t => [t.code, t.name])).toEqual([['A1', 'noct'], ['A2', 'aoi']])
+    expect(sideA.map(t => [t.code, t.name])).toEqual([['01', 'noct'], ['02', 'aoi']])
   })
   it('puts every other public repo on side B, newest first', () => {
-    expect(sideB.map(t => [t.code, t.name])).toEqual([['B1', 'fresh'], ['B2', 'old']])
+    expect(sideB.map(t => [t.code, t.name])).toEqual([['03', 'fresh'], ['04', 'old']])
   })
   it('drops forks and hidden repos', () => {
     const names = [...sideA, ...sideB].map(t => t.name)

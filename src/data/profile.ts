@@ -12,10 +12,4 @@ export const profile = {
   marquee: ['Go', 'TypeScript', 'React', 'Java', 'Spring Boot', 'Node.js', 'Next.js', 'Bun', 'Angular', 'PostgreSQL', 'Ionic', 'MongoDB',
     'Fastify', 'Redis', 'Hono', 'Docker', 'Gin', 'Vite', 'Bubble Tea', 'Git', 'Lip Gloss', 'Linux', 'JavaScript', 'Vercel', 'Vitest',
     'REST'],
-  /** What the backstage terminal cats: the main stacks across the repositories, by layer. */
-  stacks: [
-    { title: 'backend', items: [['go', 'gin'], ['java', 'spring boot'], ['node.js', 'bun', 'fastify', 'hono'], ['postgresql', 'mongodb', 'redis']] },
-    { title: 'frontend', items: [['typescript', 'react', 'next.js'], ['angular', 'ionic', 'vite'], ['bubble tea', 'lip gloss', 'charm.land']] },
-    { title: 'infra', items: [['docker', 'vercel'], ['git', 'linux']] },
-  ],
 }

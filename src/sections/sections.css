@@ -12,8 +12,14 @@
 .langs a:hover{color:var(--ink)}
 .langs a[aria-current]{background:var(--ink);color:var(--paper)}
 
+/* opening line: centred, the role in red */
+.intro{padding-block:clamp(40px,8vh,96px) clamp(8px,2vh,24px);text-align:center}
+.intro__title{font-family:var(--f-structure);font-weight:800;font-size:clamp(2.1rem,5.2vw,4.6rem);line-height:1;letter-spacing:-.035em;max-width:20ch;margin-inline:auto;text-wrap:balance}
+.intro__role{font-family:var(--f-voice);font-style:italic;font-weight:300;letter-spacing:-.01em;color:var(--red)}
+
 /* the record player: pinned stage, each stretch of scroll plays the next track */
-.lp{--sleeve-size:min(40vw,calc(100svh - 56px - 300px),620px);position:relative;height:calc(100svh + var(--steps) * 28svh)}
+/* 12svh of scroll per project: about one wheel notch moves to the next one */
+.lp{--sleeve-size:min(40vw,calc(100svh - 56px - 300px),620px);position:relative;height:calc(100svh + var(--steps) * 12svh)}
 .lp__stage{position:sticky;top:56px;height:calc(100svh - 56px);max-width:1320px;display:grid;grid-template-columns:var(--sleeve-size) minmax(0,1fr);
   /* ~0.26x the sleeve: the band where the disc label shows between sleeve and tracklist */
   column-gap:calc(var(--sleeve-size) * .26);align-items:center}
@@ -30,6 +36,7 @@
 .note__voice{font-family:var(--f-voice);font-style:italic;font-weight:300;font-size:clamp(1.02rem,1.4vw,1.2rem);line-height:1.4;color:var(--ink-dim);margin-top:8px;max-width:52ch}
 .note__meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin-top:12px;font:400 .72rem/1.4 var(--f-mono);color:var(--ink-faint)}
 .note__meta span{display:inline-flex;align-items:center;gap:5px}
+.note__actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 
 .tracklist{border-top:.5px solid var(--line);list-style:none;margin:0;padding:0}
 .tracklist__row{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:grid;grid-template-columns:40px minmax(0,1fr) auto 56px;gap:14px;align-items:baseline;padding:15px 4px;border-bottom:.5px solid var(--line);
@@ -43,36 +50,107 @@
 .tracklist__live{color:var(--red-ink)}
 .tracklist__stars{display:inline-flex;align-items:center;gap:4px}
 .tracklist__time{font:400 .72rem/1 var(--f-mono);color:var(--ink-faint);text-align:right}
-.tracklist__more,.side-b__more{margin-top:18px}
+.tracklist__more{margin-top:18px}
 
-/* backstage: rail title, rolling terminal, credits */
+/* stack: rail title, wall of dithered logos, credits */
 .backstage{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
 .backstage__grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,4vw,64px);align-items:start}
+.stack{margin:0;display:grid;gap:16px}
+/* the honeycomb: pointy-top hexagons on a half-cell grid; rows overlap by a quarter of a hexagon */
+.stack{container-type:inline-size}
+.stack__grid{--hw:calc(200cqi / 11);--hh:calc(var(--hw) * 1.1547);list-style:none;margin:0;padding:0 0 calc(var(--hh) * .25);display:grid;
+  grid-template-columns:repeat(11,minmax(0,1fr));grid-auto-rows:calc(var(--hh) * .75)}
+.stack__grid li{grid-column:var(--c);grid-row:var(--r);height:var(--hh);padding:2px}
+/* Proximity glow: each border is the tile's own background showing through a 1.5px gap. A red radial gradient
+   fixed to the viewport sits under the pointer, so every hexagon lights by its distance from it. */
+@property --glow{syntax:'<number>';inherits:true;initial-value:0}
+.stack{--mx:-999px;--my:-999px;transition:--glow .35s var(--ease)}
+.stack__tile{all:unset;box-sizing:border-box;position:relative;cursor:pointer;width:100%;height:100%;display:grid;align-content:center;justify-items:center;gap:6px;
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
+  /* hard-edged, not a soft shadow: solid red out to 60% of the radius, then a short step back to the plain rule */
+  background:radial-gradient(170px circle at var(--mx) var(--my),color-mix(in srgb,var(--red-ink) calc(var(--glow) * 100%),var(--line)) 0%,
+    color-mix(in srgb,var(--red) calc(var(--glow) * 100%),var(--line)) 60%,var(--line) 68%) fixed}
+.stack__tile::before{content:"";position:absolute;inset:1.5px;clip-path:inherit;background:var(--paper);transition:background-color var(--snap)}
+.stack__tile:hover::before,.stack__tile[aria-pressed="true"]::before{background:color-mix(in srgb,var(--paper) 90%,var(--ink))}
+.stack__tile:hover,.stack__tile[aria-pressed="true"]{background:var(--red)}
+.stack__tile:focus-visible{background:var(--red-ink)}
+.stack__tile>*{position:relative}
+.stack__mark{position:relative;display:grid;place-items:center;width:38%;aspect-ratio:1}
+.stack__mark canvas{width:100%;height:100%;image-rendering:pixelated;transition:opacity .15s var(--ease)}
+.stack__mark svg,.stack__mark b{position:absolute;inset:12%;opacity:0;transition:opacity .15s var(--ease)}
+.stack__mark b{display:grid;place-items:center;font:800 1.1rem/1 var(--f-structure);color:var(--ink)}
+.stack__tile:hover canvas,.stack__tile:focus-visible canvas,.stack__tile[aria-pressed="true"] canvas{opacity:0}
+.stack__tile:hover .stack__mark>:not(canvas),.stack__tile:focus-visible .stack__mark>:not(canvas),.stack__tile[aria-pressed="true"] .stack__mark>:not(canvas){opacity:1}
+.stack__name{font:400 .66rem/1 var(--f-mono);color:var(--ink-dim);white-space:nowrap}
+.stack__read{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;min-height:1.6em;font:400 .78rem/1.4 var(--f-mono);color:var(--ink-muted)}
+.stack__read b{font-weight:500;color:var(--ink)}
+.stack__read span:first-of-type{color:var(--red-ink)}
 .specs{margin:0;border-top:.5px solid var(--line)}
 .specs__row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;padding:16px 0;border-bottom:.5px solid var(--line);align-items:baseline}
 .specs__row dt{font:400 .78rem/1.3 var(--f-label);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint)}
 .specs__row dd{margin:0;color:var(--ink-dim)}
 .backstage__history{margin-top:22px}
 
-/* side B: mirrored spread, index left, B-side disc right */
-.side-b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,clamp(240px,30vw,400px));gap:clamp(32px,5vw,80px);align-items:start}
-.side-b__head{display:grid;gap:14px;margin-bottom:clamp(24px,3vw,40px)}
-.side-b__head .section-head{margin:0}
-.side-b__lede{font-family:var(--f-voice);font-style:italic;font-weight:300;font-size:clamp(1.02rem,1.4vw,1.2rem);line-height:1.4;color:var(--ink-dim);max-width:44ch}
-.side-b__disc{position:sticky;top:96px}
-.side-b__disc .disc{position:relative;inset:auto;width:100%;top:0;right:0}
-.disc--b .disc__label{inset:30%;padding-top:20%;gap:6px;font-size:.72rem}
-.disc--b .disc__label b{font-size:.75rem;max-width:80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.index{list-style:none;margin:0;padding:0;border-top:.5px solid var(--line)}
-.index__row{display:grid;grid-template-columns:40px minmax(100px,170px) minmax(0,1fr) 84px 56px 18px;gap:14px;align-items:baseline;padding:13px 0;border-bottom:.5px solid var(--line);transition:background-color var(--snap)}
-.index__row[data-active]{background:var(--tint)}
-.index__code{font:400 .8rem/1 var(--f-label);color:var(--red-ink)}
-.index__name{font-family:var(--f-structure);font-weight:800;font-size:clamp(1.02rem,1.4vw,1.2rem);letter-spacing:-.01em;text-decoration:none;overflow-wrap:anywhere;transition:color var(--snap)}
-.index__name:hover,.index__row[data-active] .index__name{color:var(--red-ink)}
-.index__desc{font-size:1rem;color:var(--ink-dim)}
-.index__lang,.index__date{font:400 .72rem/1 var(--f-mono);color:var(--ink-faint)}
-.index__live a{color:var(--ink-muted);transition:color var(--snap)}
-.index__live a:hover{color:var(--red)}
+/* repositories: the list on the left, the chosen README on the right; the selected row opens into the reader */
+.repos__head{display:grid;gap:14px;margin-bottom:clamp(24px,3vw,40px)}
+.repos__head .section-head{margin:0}
+.repos__lede{font-family:var(--f-voice);font-style:italic;font-weight:300;font-size:clamp(1.02rem,1.4vw,1.2rem);line-height:1.4;color:var(--ink-dim);max-width:52ch}
+/* One top rule for list and reader alike, drawn here, so the open row and the reader can never start a pixel apart. */
+.repos__body{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:stretch;border-top:1px solid var(--line-strong)}
+.repos__list{list-style:none;margin:0;padding:0}
+.repos__list li:first-child .repos__row{border-top-width:0}
+.repos__row{all:unset;box-sizing:border-box;cursor:pointer;position:relative;width:calc(100% + 1px);display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:6px 14px;align-items:start;
+  padding:15px 16px 15px 10px;border:1px solid transparent;border-bottom-color:var(--line);transition:background-color var(--snap)}
+.repos__row:hover{background:var(--tint)}
+.repos__row:focus-visible{outline:1px solid var(--red);outline-offset:-2px}
+/* the open row takes the reader's surface and border, and covers the reader's left edge, so the two read as one shape */
+.repos__list li .repos__row[aria-pressed="true"]{z-index:2;background:var(--surface);border-color:var(--line-strong);border-right-color:var(--surface)}
+.repos__code{grid-row:span 2;font:400 .8rem/1.5 var(--f-label);color:var(--red-ink)}
+.repos__main{grid-row:span 2;display:grid;gap:4px;min-width:0}
+.repos__name{font-family:var(--f-structure);font-weight:800;font-size:clamp(1.1rem,1.5vw,1.3rem);line-height:1.1;letter-spacing:-.015em;overflow-wrap:anywhere;transition:color var(--snap)}
+.repos__row:hover .repos__name,.repos__row[aria-pressed="true"] .repos__name{color:var(--red-ink)}
+.repos__desc{font-size:.9rem;line-height:1.4;color:var(--ink-muted)}
+.repos__desc:empty{display:none}
+.repos__meta{display:flex;gap:10px;justify-content:flex-end;font:400 .7rem/1.5 var(--f-mono);color:var(--ink-faint)}
+.repos__open{justify-self:end;display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line-strong);border-radius:var(--radius);font:500 .7rem/1 var(--f-mono);color:var(--ink-dim);transition:background-color var(--snap),color var(--snap),border-color var(--snap)}
+.repos__open .icon{width:.85rem;height:.85rem}
+.repos__row:hover .repos__open{border-color:var(--ink);color:var(--ink)}
+.repos__row[aria-pressed="true"] .repos__open{background:var(--red);border-color:var(--red);color:var(--on-red)}
+/* As tall as the list, never taller: size containment keeps a long README from stretching the row; it scrolls inside instead. */
+.repos__view{position:relative;z-index:1;contain:size;min-height:520px;display:grid;grid-template-rows:auto minmax(0,1fr);background:var(--surface);border:1px solid var(--line-strong);border-top:0}
+.repos__bar{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:.5px solid var(--line)}
+.repos__title{display:flex;align-items:baseline;gap:10px;font-family:var(--f-structure);font-weight:800;font-size:1.3rem;line-height:1;letter-spacing:-.015em}
+.repos__title span{font:400 .8rem/1 var(--f-label);color:var(--red-ink)}
+.repos__title small{font:400 .7rem/1 var(--f-mono);color:var(--ink-faint);letter-spacing:0}
+.repos__actions{display:flex;flex-wrap:wrap;gap:8px}
+.repos__doc{position:relative;overflow:auto;overscroll-behavior:contain;padding:24px clamp(18px,2.4vw,32px) 48px}
+.repos__doc:focus-visible{outline:1px solid var(--red);outline-offset:-1px}
+.repos__note{font:400 .85rem/1.5 var(--f-mono);color:var(--ink-muted)}
+.loader{display:grid;place-items:center;align-content:center;gap:14px;min-height:280px;height:100%}
+.loader canvas{width:min(100%,280px);height:auto;image-rendering:pixelated}
+.loader span{font:400 .75rem/1 var(--f-mono);color:var(--ink-muted)}
+/* README typography, from GitHub's rendering */
+.md{font:400 .95rem/1.65 var(--f-read);color:var(--ink-dim);max-width:76ch;margin-inline:auto;overflow-wrap:break-word}
+.md :where(p,ul,ol,pre,table,blockquote,details,div){margin:0 0 1em}
+.md :where(h1,h2,h3,h4,h5,h6){margin:1.6em 0 .6em;font-family:var(--f-structure);font-weight:800;line-height:1.15;letter-spacing:-.015em;color:var(--ink)}
+.md>:first-child,.md>:first-child>:first-child{margin-top:0}
+.md h1{font-size:1.8rem}.md h2{font-size:1.4rem;padding-bottom:.3em;border-bottom:.5px solid var(--line)}.md h3{font-size:1.12rem}.md :where(h4,h5,h6){font-size:1rem}
+.md a{color:var(--red-ink);text-underline-offset:2px}
+.md strong{color:var(--ink);font-weight:500}
+.md :where(ul,ol){padding-left:1.4em}
+.md li+li{margin-top:.25em}
+.md code{font:400 .84em/1.5 var(--f-mono);background:var(--tint);padding:.12em .38em;border-radius:var(--radius)}
+.md pre{background:var(--paper);border:.5px solid var(--line);padding:14px 16px;overflow:auto;font-size:.85rem}
+.md pre code{background:none;padding:0;font-size:inherit}
+.md img{max-width:100%;height:auto;vertical-align:middle}
+.md table{display:block;overflow:auto;border-collapse:collapse;font-size:.88rem}
+.md :where(th,td){border:.5px solid var(--line);padding:6px 12px;text-align:left}
+.md th{color:var(--ink);font-weight:500}
+.md blockquote{border-left:2px solid var(--red);padding-left:14px;color:var(--ink-muted)}
+.md hr{border:0;border-top:.5px solid var(--line);margin:1.6em 0}
+.md [align="center"]{text-align:center}
+.md summary{cursor:pointer;color:var(--ink)}
+.md kbd{font:400 .8em var(--f-mono);border:.5px solid var(--line-strong);padding:.1em .4em;border-radius:var(--radius)}
 
 /* closing duo: contact beside on rotation */
 .duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,80px);align-items:start}
@@ -83,7 +161,35 @@
 .contact__links .icon{width:1.1rem;height:1.1rem;align-self:center;color:var(--ink-faint);transition:color var(--snap),transform var(--move) var(--ease)}
 .contact__links a:hover .contact__v,.contact__links a:hover .icon{color:var(--red-ink)}
 .contact__links a:hover .icon{transform:translate(3px,-3px)}
-.rotation__player{display:block;border:.5px solid var(--line);transition:border-color var(--snap)}
+.rotation__head{display:flex;align-items:baseline;gap:12px}
+.rotation__head .section-head{margin-bottom:clamp(24px,3vw,40px)}
+/* equalizer: the widget is live data, so the heading pulses with it */
+.eq{display:inline-flex;gap:3px;align-items:flex-end;height:.9em;font-size:clamp(1.7rem,2.6vw,2.4rem)}
+.eq i{width:4px;height:30%;background:var(--red);animation:eq 1.1s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:-.35s}
+.eq i:nth-child(3){animation-delay:-.7s}
+@keyframes eq{0%,100%{height:25%}50%{height:100%}}
+@media (prefers-reduced-motion:reduce){.eq i{animation:none;height:60%}}
+.rotation__deck{position:relative}
+.disc{position:relative;width:100%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,transparent 37.6%,#08070a 38%,#08070a 39%,transparent 39.4%),repeating-radial-gradient(circle,#100d13 0 2px,#221d27 2px 3px);
+  box-shadow:0 18px 50px -20px #000;transform:rotate(var(--spin,0deg));will-change:transform}
+.disc__label{position:absolute;inset:38%;border-radius:50%;background:var(--red);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;padding-top:14%;
+  font:400 .56rem/1 var(--f-label);letter-spacing:.14em;text-transform:uppercase;color:var(--on-red);overflow:hidden}
+.disc__label b{font:800 .8rem/1 var(--f-structure);letter-spacing:-.01em;text-transform:none}
+/* spindle hole plus a rim notch: an off-centre mark is what makes the rotation visible */
+.disc__label::after{content:"";position:absolute;left:50%;top:50%;width:7%;aspect-ratio:1;border-radius:50%;background:var(--paper);transform:translate(-50%,-50%)}
+.disc::after{content:"";position:absolute;left:50%;top:1.5%;width:1.2%;height:5%;background:var(--ink-faint);opacity:.5;transform:translateX(-50%)}
+/* the one vinyl on the page: half out of the player, turning with the scroll */
+.rotation__deck .disc{position:absolute;z-index:0;width:clamp(120px,38%,210px);top:50%;right:0;translate:0 -50%;transition:right .4s var(--ease)}
+/* A slow idle turn on `rotate`, which composes with the scroll-driven `transform`, so scrolling still nudges it. */
+.rotation__deck .disc{animation:disc-turn 14s linear infinite}
+@keyframes disc-turn{to{rotate:1turn}}
+@media (prefers-reduced-motion:reduce){.rotation__deck .disc{animation:none}}
+.rotation__deck:hover .disc{right:-3%}
+.rotation__deck .disc__label{gap:2px;padding-top:12%;font-size:.42rem}
+.rotation__deck .disc__label b{font-size:.62rem}
+.rotation__player{position:relative;z-index:1;display:block;width:78%;background:var(--paper);border:.5px solid var(--line);transition:border-color var(--snap)}
 .rotation__player:hover{border-color:var(--red)}
 .rotation__player img{display:none;width:100%;height:auto}
 .rotation__player[data-loaded] img{display:block}
@@ -105,15 +211,19 @@
   .notes{width:100%;min-height:96px}
   .note__voice{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:4px}
   .note__meta{margin-top:6px}
+  .note__actions{margin-top:10px}
+  .note__actions .btn{min-height:34px;padding:0 12px;font-size:.74rem}
   .note__title{font-size:clamp(1.4rem,2.2vw,1.9rem)}
   .topbar__nav{display:none}
   .topbar__years{margin-left:auto}
-  .backstage,.backstage__grid,.side-b,.duo{grid-template-columns:1fr}
-  .side-b__disc{display:none}
-  .index__row{grid-template-columns:40px minmax(0,1fr) auto 18px;row-gap:4px}
-  .index__desc{grid-column:2/-1;grid-row:2}
-  .index__desc:empty{display:none}
-  .index__date{display:none}
+  .backstage,.backstage__grid,.duo{grid-template-columns:1fr}
+  .stack__grid{--hw:calc(200cqi / 7);grid-template-columns:repeat(7,minmax(0,1fr))}
+  .stack__grid li{grid-column:var(--cm);grid-row:var(--rm)}
+  .repos__body{grid-template-columns:1fr;gap:16px;border-top:0}
+  .repos__list li:first-child .repos__row{border-top-width:1px;border-top-color:var(--line)}
+  .repos__row{width:100%}
+  .repos__row[aria-pressed="true"]{border-right-color:var(--line-strong);box-shadow:inset 3px 0 0 var(--red)}
+  .repos__view{height:72svh;min-height:0;border-top:1px solid var(--line-strong);scroll-margin-top:72px}
 }
 @media (max-width:520px){
   .topbar__years{display:none}

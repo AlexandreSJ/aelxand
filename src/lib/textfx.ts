@@ -42,7 +42,7 @@ export function scramble(el: HTMLElement, opts: { duration?: number; rand?: () =
   const chars = charify(el)
   const rand = opts.rand ?? Math.random
   const n = chars.length
-  const duration = opts.duration ?? 600 + n * 16
+  const duration = opts.duration ?? 300 + n * 8
   const t0 = performance.now()
   let raf = 0
   const step = (t: number) => {
@@ -63,7 +63,7 @@ export function glitch(el: HTMLElement): () => void {
   el.classList.remove('glitching')
   void el.offsetWidth
   el.classList.add('glitching')
-  const id = setTimeout(() => el.classList.remove('glitching'), 950)
+  const id = setTimeout(() => el.classList.remove('glitching'), 475)
   return () => { clearTimeout(id); el.classList.remove('glitching') }
 }
 

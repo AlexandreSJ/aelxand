@@ -4,7 +4,6 @@ import './styles/base.css'
 import './styles/fx.css'
 import './components/primitives.css'
 import './components/canvas.css'
-import './components/terminal.css'
 import './sections/sections.css'
 import { I18nProvider, useI18n, type Locale } from './i18n'
 import { profile } from './data/profile'
@@ -12,6 +11,7 @@ import { Background } from './components/Background'
 import { Rule } from './components/Rule'
 import { Marquee } from './components/Marquee'
 import { Header } from './sections/Header'
+import { Intro } from './sections/Intro'
 import { Record } from './sections/Record'
 import { Backstage } from './sections/Backstage'
 import { SideB } from './sections/SideB'
@@ -30,6 +30,7 @@ export function App({ locale }: { locale: Locale }) {
       <Background />
       <Header />
       <main>
+        <Intro />
         <Record />
         <Rule />
         <Backstage />
