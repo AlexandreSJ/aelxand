@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import { App } from './App'
-import { isLocale, type Locale } from './i18n'
+import { HTML_LANG, isLocale, type Locale } from './i18n'
 import { pickLocale } from './i18n/pickLocale'
 
 const root = document.getElementById('root')!
@@ -19,6 +19,11 @@ if (isLocale(segment)) {
   if (preferred !== locale) location.replace(`/${preferred}${location.hash}`)
   else if (!prerendered) history.replaceState(null, '', `/${locale}${location.hash}`)
 }
+
+// The pre-render writes these on <html>; the dev server serves index.html as is, so set them here too.
+// :lang() rules depend on it (the Japanese vertical headings must not be turned upside down).
+document.documentElement.lang = HTML_LANG[locale]
+document.documentElement.dataset.locale = locale
 
 const app = <StrictMode><App locale={locale} /></StrictMode>
 if (prerendered) hydrateRoot(root, app)
