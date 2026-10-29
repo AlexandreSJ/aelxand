@@ -65,8 +65,10 @@ describe('paintSpecks', () => {
     expect([...a]).toEqual([...b])
     let on = 0
     for (let i = 3; i < a.length; i += 4) if (a[i]) on++
-    expect(on / (160 * 120)).toBeGreaterThan(0.002)
+    expect(on / (160 * 120)).toBeGreaterThan(0.0005)
     expect(on / (160 * 120)).toBeLessThan(0.03)
+    // only red specks: no light ink dots on the nearest, most visible layer
+    for (let i = 0; i < a.length; i += 4) if (a[i + 3]) expect([a[i], a[i + 1], a[i + 2]]).toEqual([...RED])
   })
 })
 

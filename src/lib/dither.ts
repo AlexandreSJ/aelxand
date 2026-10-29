@@ -70,11 +70,10 @@ const hash = (x: number, y: number) => {
   return ((n ^ (n >>> 16)) >>> 0) / 4294967296
 }
 
-/** Nearest parallax layer: sparse single specks, a few red, that drift fastest and give the ground depth. */
+/** Nearest parallax layer: sparse red specks that drift fastest and give the ground depth. Red only: light specks pulled the eye to the ground. */
 export function paintSpecks(out: Uint8ClampedArray, w: number, h: number): void {
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-    const r = hash(x, y)
-    if (r < 0.004) put(out, y * w + x, r < 0.001 ? RED : INK, 150)
+    if (hash(x, y) < 0.001) put(out, y * w + x, RED, 150)
   }
 }
 
