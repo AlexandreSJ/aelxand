@@ -4,7 +4,6 @@ import { useReducedMotion } from '../hooks/useReducedMotion'
 import { useTextFx } from '../hooks/useTextFx'
 import { useI18n } from '../i18n'
 import type { Track } from '../data/record'
-import { Rail } from './Rail'
 
 const N = 200
 const REVEAL_MS = 700
@@ -59,7 +58,7 @@ function Portrait() {
  * The record sleeve. The cover is the dithered portrait; each side A track has
  * its own layer (the project's real video, or a clean type cover) that fades in
  * while that track is active. A track whose media is the portrait keeps it up.
- * The rail beside it shows how far through the projects the scroll is.
+ * The tracklist beside it shows how far through the projects the scroll is.
  */
 export function Sleeve({ tracks, active, motto, mottoRest }: { tracks: Track[]; active: number; motto: string; mottoRest: string }) {
   const { t } = useI18n()
@@ -81,7 +80,6 @@ export function Sleeve({ tracks, active, motto, mottoRest }: { tracks: Track[]; 
 
   return (
     <div className="record">
-      <Rail tracks={tracks} active={active} />
       <div className="sleeve" data-mode={mode}>
         <Portrait />
         <div ref={layers} className="sleeve__layers">
