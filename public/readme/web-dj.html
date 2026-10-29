@@ -1,0 +1,167 @@
+<div><div><h1>Web DJ</h1><span id="md-web-dj-web-dj"></span></div>
+<p>A real-time collaborative step sequencer. An online rave where anyone can join and make music together.</p>
+<div><h2>What Is This</h2><span id="md-web-dj-what-is-this"></span></div>
+<p>Web DJ is a shared music grid. Open the page, see a neon-lit sequencer, click cells to toggle notes. Everyone connected sees changes instantly. The beat loops and plays for all.</p>
+<p>No sign-up. No rooms. One shared rave.</p>
+<div><h2>Features</h2><span id="md-web-dj-features"></span></div>
+<ul>
+<li><strong>5 instruments</strong> — Synth Lead, Bass, Pluck/Strings, Piano/Keys, Drums</li>
+<li><strong>8 rows per instrument</strong> — 8 notes (C major scale) for melodic, 8 percussion types for drums</li>
+<li><strong>16 steps</strong> — classic step sequencer loop</li>
+<li><strong>Real-time collaboration</strong> — WebSocket broadcasts every edit to all users instantly</li>
+<li><strong>Collaborative BPM</strong> — slider from 60 to 240 (step 10), anyone can change it</li>
+<li><strong>Neon cyberpunk UI</strong> — dark background, glowing cells per instrument color</li>
+<li><strong>Hybrid audio</strong> — Tone.js synthesizers for melodic instruments + synthesized percussion</li>
+<li><strong>No auth, no persistence</strong> — pure ephemeral jam session</li>
+</ul>
+<div><h2>Tech Stack</h2><span id="md-web-dj-tech-stack"></span></div>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Tech</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backend</td>
+<td>Hono on Bun, WebSocket</td>
+</tr>
+<tr>
+<td>Frontend</td>
+<td>React 19, Vite, TypeScript</td>
+</tr>
+<tr>
+<td>Audio</td>
+<td>Tone.js (FMSynth, MonoSynth, PluckSynth, Sampler, MembraneSynth, MetalSynth)</td>
+</tr>
+<tr>
+<td>Real-time</td>
+<td>WebSocket (server-state + client-playback hybrid)</td>
+</tr>
+</tbody>
+</table>
+<div><h2>Quick Start</h2><span id="md-web-dj-quick-start"></span></div>
+<div><h3>Prerequisites</h3><span id="md-web-dj-prerequisites"></span></div>
+<ul>
+<li><a href="https://bun.sh/" target="_blank" rel="noreferrer">Bun</a> runtime</li>
+</ul>
+<div><h3>Install &amp; Run</h3><span id="md-web-dj-install--run"></span></div>
+<div><pre><span><span>#</span> Install dependencies</span>
+bun install
+<span>cd</span> client <span>&amp;&amp;</span> bun install <span>&amp;&amp;</span> <span>cd</span> ..
+
+<span><span>#</span> Start dev server (backend + frontend)</span>
+bun run dev</pre></div>
+<p>The app runs at <code>http://localhost:3000</code>.</p>
+<div><h3>Build for Production</h3><span id="md-web-dj-build-for-production"></span></div>
+<div><pre><span>cd</span> client <span>&amp;&amp;</span> bun run build <span>&amp;&amp;</span> <span>cd</span> ..
+bun run start</pre></div>
+<div><h2>Architecture</h2><span id="md-web-dj-architecture"></span></div>
+<div><pre><code>web-dj/
+├── src/                    # Backend (Hono + Bun WebSocket)
+│   ├── index.ts            # Server entry, WS handler, broadcast
+│   ├── state.ts            # In-memory room state
+│   └── types.ts            # Shared TypeScript types
+├── client/                 # Frontend (React + Vite)
+│   └── src/
+│       ├── components/     # Grid, Cells, TransportBar, StepIndicator
+│       ├── hooks/          # useWebSocket, useSequencer, useAudioEngine, useGridState
+│       ├── audio/          # Tone.js instrument definitions
+│       └── styles/         # Neon cyberpunk CSS
+├── docs/
+│   └── ARCHITECTURE.md     # Full architecture documentation
+└── package.json
+</code></pre></div>
+<div><h3>How It Works</h3><span id="md-web-dj-how-it-works"></span></div>
+<ol>
+<li><strong>Server</strong> holds the single source of truth: grid state, BPM, connected users</li>
+<li><strong>Client toggles a cell</strong> → sends <code>cell-toggle</code> via WebSocket</li>
+<li><strong>Server updates state</strong> → broadcasts <code>cell-update</code> to all clients</li>
+<li><strong>Each client</strong> runs its own Tone.js Transport synced to the shared BPM</li>
+<li><strong>Every 16th note</strong>, the sequencer checks the grid and triggers active notes</li>
+<li><strong>No server tick</strong> — minor sub-100ms drift possible, imperceptible in practice</li>
+</ol>
+<div><h3>Instruments &amp; Grid</h3><span id="md-web-dj-instruments--grid"></span></div>
+<p>Each instrument has an 8×16 grid (8 notes/percussion types × 16 time steps):</p>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Rows</th>
+<th>Audio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Synth Lead</td>
+<td>C5 B4 A4 G4 F4 E4 D4 C4</td>
+<td>PolySynth(FMSynth)</td>
+</tr>
+<tr>
+<td>Bass</td>
+<td>C3 B2 A2 G2 F2 E2 D2 C2</td>
+<td>MonoSynth</td>
+</tr>
+<tr>
+<td>Pluck/Strings</td>
+<td>C5 B4 A4 G4 F4 E4 D4 C4</td>
+<td>PluckSynth</td>
+</tr>
+<tr>
+<td>Piano/Keys</td>
+<td>C5 B4 A4 G4 F4 E4 D4 C4</td>
+<td>Sampler</td>
+</tr>
+<tr>
+<td>Drums</td>
+<td>Kick, Snare, Clap, HH Closed, HH Open, Tom Hi, Tom Mid, Tom Lo</td>
+<td>MembraneSynth + MetalSynth + NoiseSynth</td>
+</tr>
+</tbody>
+</table>
+<div><h3>WebSocket Protocol</h3><span id="md-web-dj-websocket-protocol"></span></div>
+<table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Direction</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cell-toggle</code></td>
+<td>Client→Server</td>
+<td>Toggle a grid cell</td>
+</tr>
+<tr>
+<td><code>cell-update</code></td>
+<td>Server→All</td>
+<td>Broadcast cell change</td>
+</tr>
+<tr>
+<td><code>bpm-change</code></td>
+<td>Client→Server</td>
+<td>Change tempo</td>
+</tr>
+<tr>
+<td><code>bpm-update</code></td>
+<td>Server→All</td>
+<td>Broadcast tempo change</td>
+</tr>
+<tr>
+<td><code>full-state</code></td>
+<td>Server→New client</td>
+<td>Send entire room state</td>
+</tr>
+<tr>
+<td><code>user-joined</code> / <code>user-left</code></td>
+<td>Server→All</td>
+<td>Presence updates</td>
+</tr>
+</tbody>
+</table>
+<div><h2>License</h2><span id="md-web-dj-license"></span></div>
+<p>Apache 2.0</p>
+</div>

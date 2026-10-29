@@ -1,0 +1,326 @@
+<div><p align="center">
+  <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/assets/logo.svg" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/AlexandreSJ/noct/HEAD/docs/assets/logo.svg" alt="noct" width="260" loading="lazy" /></a>
+</p>
+<p align="center">
+  <strong>A terminal workspace for people who test.</strong><br />
+  noct runs your shells, your AI agent and your repetitive test routines side by side, in one lightweight binary.
+</p>
+<p align="center">
+  <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/go.mod" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/go-1.24%2B-00ADD8?logo=go&amp;logoColor=white" alt="Go 1.24+" loading="lazy" /></a>
+  <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/LICENSE" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="License: Apache 2.0" loading="lazy" /></a>
+  <a href="https://camo.githubusercontent.com/ea15c6295f458b2f3c8337baadfadcef9e2ac9a410afae10e366f5196a480475/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f706c6174666f726d2d6c696e75782532302537432532306d61636f732d6c6967687467726579" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/platform-linux%20%7C%20macos-lightgrey" alt="Linux | macOS" loading="lazy" /></a>
+</p>
+<p align="center">
+  <strong>English</strong> · <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/README.pt-br.md" target="_blank" rel="noreferrer">Português</a>
+</p>
+<p align="center">
+  <a href="#md-noct-why-noct">Why noct</a> · <a href="#md-noct-install">Install</a> · <a href="#md-noct-getting-started">Getting started</a> · <a href="#md-noct-make-it-yours">Make it yours</a> · <a href="#md-noct-scripts">Scripts</a> · <a href="#md-noct-flows">Flows</a> · <a href="#md-noct-ai">AI</a> · <a href="#md-noct-sessions">Sessions</a> · <a href="#md-noct-updates">Updates</a> · <a href="#md-noct-documentation">Docs</a>
+</p>
+<p align="center">
+  <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/assets/hero.gif" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/AlexandreSJ/noct/HEAD/docs/assets/hero.gif" alt="noct: a terminal tab, a script run from the scripts panel and a flow running" width="880" loading="lazy" /></a>
+</p>
+<div><p>Note</p><p><strong>Beta.</strong> v0.1.0 is the first beta: terminals, scripts, flows and the AI integration work today; expect changes before v1.0.0.</p>
+</div>
+<div><h2>Why noct</h2><span id="md-noct-why-noct"></span></div>
+<p>Testing is repetitive, but never exactly the same: the environment changes, the user changes, the input changes. A fixed script doesn't fit, and retyping commands is slow and error-prone. The knowledge of <em>how</em> to test ends up scattered across shell history, loose files and memory.</p>
+<p>noct keeps it all in one place:</p>
+<ul>
+<li><strong>Real terminals, your setup.</strong> Every pane runs your own shell with your own config. Plugins, prompts and completions work as they always do.</li>
+<li><strong>Unlimited tabs and panes.</strong> Keep a server running, follow a log, talk to an AI agent and still have a free shell, all in the same window.</li>
+<li><strong>Scripts with notes.</strong> Save the command lines you use, with notes on how and when to run them, their version, and help one key away.</li>
+<li><strong>Flows without scripts.</strong> Chain scripts in a visual editor with conditions, loops, delays, variables and prompts that ask you for a value mid-run; typed params are filled in a form (<code>p</code> in the inspect). Every run is kept, and a calendar shows when it ran and its full log.</li>
+<li><strong>AI that works with you.</strong> Through MCP, an AI agent can read your scripts, draft flows, run them and analyze the results, and nothing new runs without your approval.</li>
+<li><strong>Lightweight.</strong> A single Go binary with no runtime to install.</li>
+</ul>
+<div><h2>Install</h2><span id="md-noct-install"></span></div>
+<p>On Linux or macOS, download the archive for your system (<code>linux</code> or <code>darwin</code>, <code>amd64</code> or <code>arm64</code>) from the <a href="https://github.com/AlexandreSJ/noct/releases/latest" target="_blank" rel="noreferrer">latest release</a> and put <code>noct</code> on your <code>PATH</code>. A folder you own, like <code>~/.local/bin</code>, lets noct update itself without <code>sudo</code>:</p>
+<div><pre>tar -xzf noct_v0.1.1_linux_amd64.tar.gz noct
+install -m 755 noct <span>~</span>/.local/bin/noct</pre></div>
+<p>With Go 1.24 or later:</p>
+<div><pre>go install github.com/AlexandreSJ/noct/cmd/noct@latest</pre></div>
+<p>Or build from source:</p>
+<div><pre>git clone https://github.com/AlexandreSJ/noct
+<span>cd</span> noct
+go build -o noct ./cmd/noct</pre></div>
+<div><h2>Getting started</h2><span id="md-noct-getting-started"></span></div>
+<p>Run <code>noct</code>. The first time, <strong>noct setup</strong> asks for the keys, themes and animations, can install a demo of flows, add noct to the AI clients you have and create shortcuts of your own; <code>noct setup</code> opens it again at any time (<code>make install</code> runs it too). Then noct opens on an empty home screen; press any key to see the prefix key that opens the commands.</p>
+<p>Press the prefix key, <code>Ctrl+Space</code>, to enter <strong>noct mode</strong>. In noct mode, moving around keeps the mode on, so you can hop across panes and tabs with a single prefix:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arrows or <code>hjkl</code></td>
+<td>Move between panes; past the edge, into the next or previous tab</td>
+</tr>
+<tr>
+<td><code>Tab</code> / <code>Shift+Tab</code></td>
+<td>Change tab</td>
+</tr>
+<tr>
+<td><code>t</code></td>
+<td>New tab, with a terminal or the panel chosen in the config</td>
+</tr>
+<tr>
+<td><code>p</code></td>
+<td>New terminal panel: splits the current pane, or opens a tab on the home screen</td>
+</tr>
+<tr>
+<td><code>s</code></td>
+<td>New scripts panel: your saved scripts, to run, edit and create</td>
+</tr>
+<tr>
+<td><code>i</code></td>
+<td>Inspect: your flows as flowcharts, to build step by step, run and review</td>
+</tr>
+<tr>
+<td><code>v</code></td>
+<td>Logs by day on a calendar colored by activity, with their size, lines and how each run ended</td>
+</tr>
+<tr>
+<td><code>Space</code> or <code>'</code></td>
+<td>Search scripts, actions, tabs and your binds</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>Help for the program running in the terminal</td>
+</tr>
+<tr>
+<td><code>o</code></td>
+<td>Sessions: open, create, rename, close and delete them, and <code>f</code> filters them by name</td>
+</tr>
+<tr>
+<td><code>y</code></td>
+<td>MCP: approve what an AI asks to run, and add noct to an AI client</td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td>Move the pane with the arrows, even into another tab</td>
+</tr>
+<tr>
+<td><code>n</code></td>
+<td>Resize the pane with the arrows</td>
+</tr>
+<tr>
+<td><code>w</code></td>
+<td>Stack the panes of the focused group, as in zellij: the focused one takes the height, the others show as a title row each; again to split them</td>
+</tr>
+<tr>
+<td><code>f</code></td>
+<td>Fullscreen: show only the focused pane, or the layout again</td>
+</tr>
+<tr>
+<td><code>u</code></td>
+<td>New floating panel with a terminal, over the others; drag its border with the left button to move it, with the right one to resize it</td>
+</tr>
+<tr>
+<td><code>r</code></td>
+<td>Rename the tab</td>
+</tr>
+<tr>
+<td><code>e</code></td>
+<td>Rename the pane; an empty name gives back the program's</td>
+</tr>
+<tr>
+<td><code>g</code></td>
+<td>Scroll the terminal's history with vim's keys and the arrows; any other key goes back to live</td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>Detach; programs keep running</td>
+</tr>
+<tr>
+<td><code>x</code></td>
+<td>Close the pane; a tab closes with its last pane, unless the config keeps empty tabs</td>
+</tr>
+<tr>
+<td><code>c</code></td>
+<td>Updates: what is new in each version and, when a newer one is out, installing it</td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td>Config: prefix key, the keys of every screen, direct shortcuts, theme, dark or light mode, background, mouse, your own binds, what a new tab opens and whether it closes when empty, editor, file manager, scripts folder, how long and how much of the logs to keep, how much step output flows keep</td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td>Quit, after asking: <code>Enter</code> or <code>q</code> again</td>
+</tr>
+<tr>
+<td><code>b</code></td>
+<td>Lock the shortcuts, so programs get them; moving around still works. Again to unlock</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>Cancel</td>
+</tr>
+</tbody>
+</table>
+<p>A popup lists these keys while noct mode is on. Wherever noct moves something and you are not typing, <code>hjkl</code> work like the arrows, and in every list <code>PgUp</code>/<code>PgDn</code> move a page and <code>Home</code>/<code>End</code> go to the ends.</p>
+<p>Outside noct mode, every key goes straight to the program in the pane, except the <strong>direct shortcuts</strong>: <code>Alt</code> with a noct mode key runs that command without the prefix (<code>Alt+→</code> moves the focus, <code>Alt+T</code> opens a tab, <code>Alt+A</code> moves the pane), and <code>Alt+Shift</code> with the arrows moves the pane directly. This takes <code>Alt+F</code> and <code>Alt+D</code> from the shell's word editing; the modifier can be switched to <code>Ctrl+Alt</code> or turned off in the config. Every key of noct's modes, panels and popups can also be changed there, under <strong>Keys → binds of every screen</strong>.</p>
+<p>Panes tile like i3 with autotiling: a new pane opens beside the focused one when it is wider than tall, below it otherwise. Moving a pane (<code>a</code>, or <code>Alt+Shift</code> with the arrows) thinks in columns: sideways it leaves its column for the same place in the next one (or its bottom, when it was alone); up and down it moves along its column and, past the first or last place, takes the width above or below, as in i3. <code>prefix</code> + <code>w</code> stacks the focused pane with the panes below it.</p>
+<p>The mouse works too: click a tab or a pane to select it, click a command in the prefix popup or a setting in the config to run or change it, drag the line between two panes to resize them, scroll a terminal's history with the wheel, and drag over text to select it; releasing copies it to the clipboard. Programs that use the mouse, like vim and htop, get the clicks.</p>
+<div><h2>Make it yours</h2><span id="md-noct-make-it-yours"></span></div>
+<p align="center">
+  <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/assets/tour.gif" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/AlexandreSJ/noct/HEAD/docs/assets/tour.gif" alt="noct: search, the logs calendar colored by activity, a second session, the config and the keys of every screen" width="880" loading="lazy" /></a>
+</p>
+<p><code>prefix</code> + <code>,</code> (or <code>Alt+,</code>) opens the config, saved as readable TOML in <code>~/.config/noct/config.toml</code>; every change applies at once.</p>
+<ul>
+<li><strong>Keys.</strong> Set the prefix by pressing it: any modifiers with a key, shown as your terminal sends it, with a warning when it would take a key from noct or from programs (<code>ctrl+c</code>, <code>ctrl+r</code>, tmux's <code>ctrl+b</code>). <strong>Binds of every screen</strong> lists each action of noct's modes, panels and popups with its keys: <code>Enter</code> changes one (with several, <code>←→</code> choose which first), <code>a</code> adds another, <code>Delete</code> gives the default back. Hints, popups and labels follow your keys.</li>
+<li><strong>Tabs.</strong> Choose what a new tab opens (empty, a terminal, scripts, flows or logs) and whether a tab closes with its last pane. <code>prefix</code> + <code>R</code> saves a tab as a template (layout, names, colors and each terminal's command) and <code>prefix</code> + <code>T</code> opens one as a new tab.</li>
+<li><strong>Looks.</strong> Eighteen themes, each in a dark and a light version (<strong>mode</strong> switches them), with the terminal's background or the theme's; the logs calendar colors each day by how much ran on it. <strong>New theme</strong> and <strong>edit theme</strong> make your own: every part (tab names, borders, titles, lists, messages) gets a color from the terminal's 256 or a <code>#rrggbb</code>, with a small workspace beside the list showing the result. Themes are files in <code>~/.config/noct/themes/</code>, so they can also be written by hand (see <code>docs/temas.md</code> for the keys). Each session keeps its own theme, and choosing a session shows it in its colors first. <code>prefix</code> + <code>P</code> gives the focused pane and its tab colors of their own. <strong>Animations</strong> sets an effect (<code>01</code>, <code>fade</code>, <code>jitter</code> or none) and a time for each moment: panes and tabs opening, focus, popups and more.</li>
+<li><strong>Reset.</strong> The last row of the config, and of the binds, puts everything back to its default, after a second <code>Enter</code>.</li>
+</ul>
+<div><h2>Scripts</h2><span id="md-noct-scripts"></span></div>
+<p>A script is a command line with parameters, saved in <code>~/.local/share/noct/scripts/&lt;name&gt;/script.yaml</code> (or in a project's <code>.noct/scripts/</code>) with a <code>notes.md</code> beside it:</p>
+<div><pre><span>description</span>: <span>Log in to the API</span>
+<span>program</span>: <span>curl</span>
+<span>run</span>: <span>./login.sh {{.env}} {{.user}}</span>
+<span>params</span>:
+  - <span>name</span>: <span>env</span>
+    <span>choices</span>: <span>[dev, staging, prod]</span>
+  - <span>name</span>: <span>user</span>
+    <span>remember</span>: <span>true</span></pre></div>
+<p>Scripts can be grouped in folders inside the scripts folder, and any other folder of scripts can be added by its path (<code>a</code> in the scripts panel); folders come first in the list, closed (<code>+</code>) until <code>Enter</code> opens them (<code>-</code>), and <code>n</code> asks whether to create a directory or a script. A script in a folder is <code>folder/name</code>.</p>
+<p>In the scripts panel, <code>Enter</code> asks for the parameters and runs the script in a terminal beside it, which stays open with the exit code; <code>r</code> in the run pane runs it again. In the list, <code>e</code> opens a script's form, where <code>Enter</code> edits each part (command line, description, parameters, notes) alone in your editor (vim by default) and <code>Ctrl+S</code> saves; <code>n</code> creates one and <code>Ctrl+O</code> opens the scripts folder. The scripts folder, the editor and the file manager are set in the config. The full format is in <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/scripts.md" target="_blank" rel="noreferrer">docs/scripts.md</a> (Portuguese).</p>
+<div><h2>Flows</h2><span id="md-noct-flows"></span></div>
+<p>A flow chains scripts into a test routine, saved in <code>~/.local/share/noct/flows/&lt;name&gt;.yaml</code>. <code>Ctrl+Space</code> <code>i</code> opens the inspect, where each flow is a flowchart you build step by step: run a script, <code>if</code>/<code>else</code>, <code>repeat</code> until a condition, wait, set a variable, or prompt for a value mid-run. Every run is kept with each step's output, and <code>Ctrl+Space</code> <code>v</code> shows them on a calendar.</p>
+<p>Triggers start a flow on their own while the workspace runs: on a cron schedule, when files change, or after another flow ends. <code>noct enable &lt;flow&gt;</code> turns them on. Writing a flow by hand is covered in <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/writing-flows.md" target="_blank" rel="noreferrer">docs/writing-flows.md</a>.</p>
+<div><h2>AI</h2><span id="md-noct-ai"></span></div>
+<p><code>noct mcp</code> serves noct to an AI client as an MCP server, giving it your scripts, flows, runs and panes. For Claude Code:</p>
+<div><pre>claude mcp add noct -- noct mcp</pre></div>
+<p><code>Ctrl+Space</code> <code>y</code> shows the command for other clients (Codex, Gemini CLI, VS Code, opencode, Cursor) and the clients connected now. What an AI writes is a <strong>draft</strong> that doesn't run until you review it and promote it (<code>P</code> in the inspect or scripts panel, or <code>noct promote &lt;name&gt;</code>), and commands it asks to run wait for your approval in the same popup. See <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/mcp.md" target="_blank" rel="noreferrer">docs/mcp.md</a> (Portuguese).</p>
+<div><h2>Command line</h2><span id="md-noct-command-line"></span></div>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>noct</code></td>
+<td>Attach to the session used last, starting noct if needed</td>
+</tr>
+<tr>
+<td><code>noct attach [session]</code> (or <code>a</code>, <code>att</code>, <code>-a</code>)</td>
+<td>Attach to a session by name; without one, list the sessions</td>
+</tr>
+<tr>
+<td><code>noct new [session]</code></td>
+<td>Start a session, named or numbered, and attach to it</td>
+</tr>
+<tr>
+<td><code>noct setup</code></td>
+<td>Choose the keys, themes and animations, install the demo, add noct to AI clients and create shortcuts of your own</td>
+</tr>
+<tr>
+<td><code>noct sessions</code></td>
+<td>List the sessions: open or closed, tabs, last use</td>
+</tr>
+<tr>
+<td><code>noct kill &lt;session&gt;</code></td>
+<td>Delete a session: its programs stop and its layout is forgotten</td>
+</tr>
+<tr>
+<td><code>noct -s &lt;script&gt; [name=value ...]</code></td>
+<td>Run a script in this terminal</td>
+</tr>
+<tr>
+<td><code>noct ls</code></td>
+<td>List the scripts, their program version and folder</td>
+</tr>
+<tr>
+<td><code>noct flow run &lt;flow&gt; [name=value ...]</code></td>
+<td>Run a flow in this terminal, step by step</td>
+</tr>
+<tr>
+<td><code>noct flow ls</code></td>
+<td>List the flows, with their triggers on or off</td>
+</tr>
+<tr>
+<td><code>noct enable &lt;flow&gt;</code> / <code>disable &lt;flow&gt;</code></td>
+<td>Turn a flow's triggers on or off</td>
+</tr>
+<tr>
+<td><code>noct promote &lt;flow or script&gt;</code></td>
+<td>Let a draft an AI wrote run, once reviewed</td>
+</tr>
+<tr>
+<td><code>noct mcp</code></td>
+<td>Serve noct to an AI client over stdin and stdout</td>
+</tr>
+<tr>
+<td><code>noct check</code></td>
+<td>Report the scripts and flows that cannot be loaded</td>
+</tr>
+<tr>
+<td><code>noct quit</code></td>
+<td>Close every pane and stop the workspace; sessions open again as they were</td>
+</tr>
+<tr>
+<td><code>noct update</code></td>
+<td>Show what is new in the releases after this one and, if you agree, install the newest</td>
+</tr>
+<tr>
+<td><code>noct version</code></td>
+<td>Print noct's version</td>
+</tr>
+</tbody>
+</table>
+<p><code>noct -h</code> shows every option.</p>
+<div><h2>Sessions</h2><span id="md-noct-sessions"></span></div>
+<p>Your programs keep running when you close the terminal or detach with <code>Ctrl+Space</code> <code>d</code>: run <code>noct</code> again to get back to them.</p>
+<p>Keep separate workspaces as named sessions: <code>noct new dev</code> starts one, <code>noct attach dev</code> comes back to it, and <code>Ctrl+Space</code> <code>o</code> lists them all with when each was last used, to switch, create, rename, close or delete them. Plain <code>noct</code> returns to the session you used last.</p>
+<p>A closed session, or every session after <code>noct quit</code>, keeps its tabs and panes: opening it again starts its shells in the directories they were in and its noct panels where they were. A program that was running in a shell, such as <code>claude</code> or <code>ssh</code>, does not come back by itself: the pane says what it was, and <code>Enter</code> runs the same command again (<code>Esc</code> leaves the shell alone). With terminal logs on (<code>[logs] terminals</code>), each shell also shows the end of what it printed before and goes on writing the same log. Script runs do not come back.</p>
+<p>The daemon keeps running the version it started with. After rebuilding noct, quit it (<code>Ctrl+Space</code> <code>q</code>) and run <code>noct</code> again; noct reminds you in the tab bar when it notices a newer binary.</p>
+<div><h2>Updates</h2><span id="md-noct-updates"></span></div>
+<p>The tab bar shows noct's version before the session's name, and once a day noct checks GitHub for a new release: when one is out, it shows next to the version (<code>noct v0.1.0 ↑ v0.2.0</code>). <code>Ctrl+Space</code> <code>c</code> opens the updates: the changelog of every version, <code>u</code> to install the newest and, once installed, <code>r</code> to restart into it; your sessions open again as they were, and programs in panes can be run again with <code>Enter</code>. Nothing is installed or restarted until you press a key. When noct lives in a folder you cannot write, like <code>/usr/local/bin</code>, the popup shows the command that installs it with <code>sudo</code>, and <code>y</code> copies it to paste in a terminal. The daily check can be turned off in the config (<strong>Updates → check for new versions</strong>). From the shell, <code>noct update</code> does the same. What changed in each version is in <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/CHANGELOG.md" target="_blank" rel="noreferrer">CHANGELOG.md</a>.</p>
+<div><h2>Documentation</h2><span id="md-noct-documentation"></span></div>
+<p>The design docs are in Portuguese; <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/README.md" target="_blank" rel="noreferrer">docs/README.md</a> indexes them.</p>
+<table>
+<thead>
+<tr>
+<th>Doc</th>
+<th>About</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/writing-flows.md" target="_blank" rel="noreferrer">writing-flows.md</a></td>
+<td>Writing flows and scripts in YAML by hand (English)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/scripts.md" target="_blank" rel="noreferrer">scripts.md</a></td>
+<td>Script format, parameters, notes and the CLI</td>
+</tr>
+<tr>
+<td><a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/fluxos.md" target="_blank" rel="noreferrer">fluxos.md</a></td>
+<td>Flows, triggers and the calendar</td>
+</tr>
+<tr>
+<td><a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/mcp.md" target="_blank" rel="noreferrer">mcp.md</a></td>
+<td>The tools given to an AI and the approval policy</td>
+</tr>
+<tr>
+<td><a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/tui.md" target="_blank" rel="noreferrer">tui.md</a></td>
+<td>Tabs, panes, keys and look</td>
+</tr>
+<tr>
+<td><a href="https://github.com/AlexandreSJ/noct/blob/HEAD/docs/roadmap.md" target="_blank" rel="noreferrer">roadmap.md</a></td>
+<td>Phases and what is done</td>
+</tr>
+<tr>
+<td><a href="https://github.com/AlexandreSJ/noct/blob/HEAD/CONTRIBUTING.md" target="_blank" rel="noreferrer">CONTRIBUTING.md</a></td>
+<td>Code and scope rules for people and AI agents</td>
+</tr>
+</tbody>
+</table>
+<div><h2>License</h2><span id="md-noct-license"></span></div>
+<p><a href="https://github.com/AlexandreSJ/noct/blob/HEAD/LICENSE" target="_blank" rel="noreferrer">Apache 2.0</a> © <a href="https://github.com/AlexandreSJ" target="_blank" rel="noreferrer">AlexandreSJ</a></p>
+<p>noct's terminal emulation and rendering are built on <a href="https://github.com/charmbracelet/ultraviolet" target="_blank" rel="noreferrer">Ultraviolet</a> and <a href="https://github.com/charmbracelet/x/tree/main/vt" target="_blank" rel="noreferrer">x/vt</a> by <a href="https://charm.land" target="_blank" rel="noreferrer">Charm</a>. Patched copies live in <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/third_party/README.md" target="_blank" rel="noreferrer">third_party/</a> under their original MIT licenses; see <a href="https://github.com/AlexandreSJ/noct/blob/HEAD/NOTICE" target="_blank" rel="noreferrer">NOTICE</a>.</p>
+</div>

@@ -1,0 +1,121 @@
+<div><div align="center">
+  <div><h1>Aelxand - My Portfolio</h1><span id="md-aelxand-aelxand---my-portfolio"></span></div>
+<p><a href="https://github.com/aelxand/aelxand" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&amp;logo=react&amp;logoColor=61DAFB" alt="GitHub" loading="lazy" /></a>
+<a href="https://github.com/aelxand/aelxand" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/Hono-000000?style=for-the-badge&amp;logo=hono&amp;logoColor=white" alt="Hono" loading="lazy" /></a>
+<a href="https://github.com/aelxand/aelxand" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&amp;logo=vite&amp;logoColor=white" alt="Vite" loading="lazy" /></a>
+<a href="https://github.com/aelxand/aelxand" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&amp;logo=typescript&amp;logoColor=white" alt="TypeScript" loading="lazy" /></a>
+<a href="https://github.com/aelxand/aelxand" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/Bun-000000?style=for-the-badge&amp;logo=bun&amp;logoColor=white" alt="Bun" loading="lazy" /></a></p>
+<p>A modern full-stack template combining React frontend with Hono backend, optimized for serverless deployment on Vercel.</p>
+  <div><h3>🚀 See it live at:</h3><span id="md-aelxand--see-it-live-at"></span></div>
+  <a href="https://aelxand.vercel.app/" target="_blank" rel="noreferrer">
+    <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&amp;logo=vercel&amp;logoColor=white" alt="Vercel" loading="lazy" />
+  </a>
+  <br />
+  <br />
+</div>
+<div><h2>Table of Contents</h2><span id="md-aelxand-table-of-contents"></span></div>
+<ul>
+<li><a href="#md-aelxand-features">Features</a></li>
+<li><a href="#md-aelxand-development">Development</a></li>
+<li><a href="#md-aelxand-project-structure">Project Structure</a></li>
+<li><a href="#md-aelxand-api-routes">API Routes</a></li>
+<li><a href="#md-aelxand-frontend-backend-communication">Frontend-Backend Communication</a></li>
+<li><a href="#md-aelxand-deployment">Deployment</a></li>
+</ul>
+<div><h2>Features</h2><span id="md-aelxand-features"></span></div>
+<ul>
+<li><strong>React 19</strong> with TypeScript and Vite for fast development</li>
+<li><strong>Hono</strong> ultra-fast web framework for serverless APIs</li>
+<li><strong>Bun</strong> for lightning-fast package management and runtime</li>
+<li><strong>Hot Module Replacement</strong> for both frontend and backend</li>
+<li><strong>CORS</strong> configured for seamless frontend-backend communication</li>
+<li><strong>Proxy configuration</strong> for development environment</li>
+<li><strong>Serverless-ready</strong> for Vercel deployment</li>
+</ul>
+<div><h2>Development</h2><span id="md-aelxand-development"></span></div>
+<div><h3>Install all dependencies</h3><span id="md-aelxand-install-all-dependencies"></span></div>
+<div><pre><span><span>#</span> backend</span>
+bun i
+
+<span><span>#</span> frontend</span>
+<span>cd</span> client
+bun i</pre></div>
+<div><h3>Start</h3><span id="md-aelxand-start"></span></div>
+<div><pre>bun dev    <span><span>#</span> runs both backend and frontend</span>
+
+<span><span>#</span> or separately</span>
+
+bun api    <span><span>#</span> backend</span>
+bun client <span><span>#</span> frontend</span></pre></div>
+<p>This will start:</p>
+<ul>
+<li>Backend server at <a href="http://localhost:3000" target="_blank" rel="noreferrer">http://localhost:3000</a></li>
+<li>Frontend development server at <a href="http://localhost:5173" target="_blank" rel="noreferrer">http://localhost:5173</a></li>
+</ul>
+<div><h2>Project Structure</h2><span id="md-aelxand-project-structure"></span></div>
+<div><pre><code>aelxand/
+├── api/                   # Hono backend
+│   └── index.ts           # Main server file with API routes
+├── client/                # React frontend
+│   ├── src/
+│   │   ├── App.tsx        # Main React component
+│   │   └── ...            # Other React files
+│   ├── vite.config.ts     # Vite configuration with proxy
+│   └── package.json       # Frontend dependencies
+├── src/                   # Hono backend
+│   ├── routes             # API route handlers
+│   │   ├── ping.ts        # Route handler for /api/ping
+│   │   └── ...            # Other route files
+│   └── index.ts           # Main server file
+├── api-server.ts          # Entry point for the API server
+├── package.json           # Root dependencies and scripts
+├── bun.lock               # Bun lockfile
+└── README.md              # This file
+</code></pre></div>
+<div><h2>API Routes</h2><span id="md-aelxand-api-routes"></span></div>
+<p>The frontend is configured to proxy API requests to the backend during development. All requests to <code>/api/*</code> on the frontend will be automatically forwarded to the backend server.</p>
+<div><h3>Usage</h3><span id="md-aelxand-usage"></span></div>
+<div><pre><code>...
+├── src/                   # Hono backend
+│   ├── routes             # API route handlers
+│   │   ├── ping.ts        # Route handler for /api/ping
+│   │   └── ...            # Other route files
+│   └── index.ts           # Main server file
+...
+</code></pre></div>
+<p>The backend includes a sample API endpoint:</p>
+<ul>
+<li><code>GET /ping</code> - Returns <code>{ "message": "pong" }</code></li>
+</ul>
+<p>Add new API routes in <code>src/index.ts</code>:</p>
+<div><pre><span>// Import your route handler</span>
+<span>import</span> <span>{</span> <span>usersRouter</span> <span>}</span> <span>from</span> <span>'./routes/users'</span>
+
+<span>// Mount the router</span>
+<span>app</span><span>.</span><span>route</span><span>(</span><span>'/'</span><span>,</span> <span>usersRouter</span><span>)</span></pre></div>
+<p>Then, on <code>src/routes/users.ts</code> you can define the route handlers:</p>
+<div><pre><span>app</span><span>.</span><span>get</span><span>(</span><span>'/api/users'</span><span>,</span> <span>(</span><span>c</span><span>)</span> <span>=&gt;</span> <span>{</span>
+  <span>return</span> <span>c</span><span>.</span><span>json</span><span>(</span><span>{</span> <span>users</span>: <span>[</span><span>]</span> <span>}</span><span>)</span>
+<span>}</span><span>)</span></pre></div>
+<div><h2>Deployment</h2><span id="md-aelxand-deployment"></span></div>
+<div><h3>Vercel</h3><span id="md-aelxand-vercel"></span></div>
+<p>Set build configuration:</p>
+<ul>
+<li><strong>Build Command</strong>: <code>cd client &amp;&amp; bun run build</code></li>
+<li><strong>Output Directory</strong>: <code>client/dist</code></li>
+<li><strong>Install Command</strong>: <code>bun install &amp;&amp; cd client &amp;&amp; bun install</code></li>
+</ul>
+<p>The project is configured for serverless deployment with automatic API routing.</p>
+<div><h2>Technologies Used</h2><span id="md-aelxand-technologies-used"></span></div>
+<ul>
+<li><strong>Frontend</strong>: React 19, TypeScript, Vite</li>
+<li><strong>Backend</strong>: Hono, Bun runtime</li>
+<li><strong>Styling</strong>: CSS with Vite processing</li>
+<li><strong>Development</strong>: Hot reload, proxy configuration</li>
+<li><strong>Deployment</strong>: Serverless-ready for Vercel</li>
+</ul>
+<div><h2>Contributing</h2><span id="md-aelxand-contributing"></span></div>
+<p>This is a portfolio project, not intended for contributions. If you have any suggestions or improvements, feel free to open an issue or pull request. Thanks!</p>
+<div><h2>License</h2><span id="md-aelxand-license"></span></div>
+<p>This project is licensed under the MIT License</p>
+</div>
