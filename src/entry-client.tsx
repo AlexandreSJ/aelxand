@@ -6,7 +6,8 @@ import { pickLocale } from './i18n/pickLocale'
 
 const root = document.getElementById('root')!
 const segment = location.pathname.split('/')[1]
-const prerendered = root.hasChildNodes()
+// The dev index.html only holds the <!--app-html--> placeholder comment; a pre-rendered page has real elements.
+const prerendered = root.firstElementChild !== null
 let locale: Locale
 
 if (isLocale(segment)) {
